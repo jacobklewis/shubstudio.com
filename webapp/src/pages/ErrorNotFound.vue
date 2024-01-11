@@ -1,24 +1,16 @@
 <template>
-  <div class="fullscreen bg-purple text-white text-center q-pa-md flex flex-center">
+  <div class="fullscreen text-white text-center q-pa-md flex flex-center" style="background-color: #ff931e;">
     <div>
 
       <div style="font-size: 30vh">
         404
       </div>
       <div class="text-h2" style="opacity:.4">
-        Oops. Nothing here...
+        Oops. No Shubs here...
       </div>
 
-      <q-btn
-        class="q-mt-xl"
-        color="white"
-        text-color="purple"
-        unelevated
-        to="/"
-        label="Go Home"
-        no-caps
-        icon="img:icons/logo-sq.svg"
-      />
+      <q-btn class="q-mt-xl" color="white" text-color="black" unelevated to="/" label="Back to the Studio" no-caps
+        icon="img:icons/logo.svg" />
     </div>
   </div>
 </template>

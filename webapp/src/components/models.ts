@@ -7,3 +7,9 @@ export interface IndexSummaryUI {
   graphData: Array<Array<any>> | undefined;
   graphData2: Array<Array<any>> | undefined;
 }
+
+export interface UserData {
+  username: string;
+  token: string;
+  expiration: string;
+}

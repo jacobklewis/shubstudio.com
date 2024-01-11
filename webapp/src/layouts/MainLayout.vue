@@ -12,6 +12,12 @@
         </q-btn>
         <q-space />
         <q-btn flat to="/about">About</q-btn>
+        <q-btn v-if="!isLoggedIn" flat to="/login">Login</q-btn>
+        <q-btn-dropdown v-if="isLoggedIn" stretch flat :label="username">
+          <q-list>
+            <DropdownSimpleItem v-for=" link  in  userList " :key="link.title" v-bind="link" />
+          </q-list>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
 
@@ -30,17 +36,46 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { userState, getToken } from 'src/boot/authHelper';
+import DropdownSimpleItem from 'components/DropdownSimpleItem.vue';
+import clipboard from 'clipboardy';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
+    DropdownSimpleItem
+  },
 
+  computed: {
+    username() {
+      return userState.username;
+    },
+    isLoggedIn() {
+      return userState.isLoggedIn;
+    }
   },
 
   setup() {
 
     return {
+      userList: [
+        {
+          title: 'Logout',
+          caption: 'Logout of Shub Studio',
+          icon: 'logout',
+          link: '/logout',
+        },
+        {
+          title: 'Copy Token',
+          caption: 'Copy Token to clipboard (debug)',
+          icon: 'key',
+          action: function () {
+            clipboard.write(getToken() || '');
+          }
+        },
+
+      ]
     }
   }
 });

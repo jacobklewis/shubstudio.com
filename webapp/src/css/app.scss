@@ -68,3 +68,29 @@ h3 {
 .q-table__card {
   border-radius: 20px;
 }
+
+
+@media (max-width: 600px) {
+  .loginbox {
+    width: 96%;
+  }
+}
+
+@media (max-width: 1000px) and (min-width: 601px) {
+  .loginbox {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1001px) {
+  .loginbox {
+    width: 80%;
+    max-width: 1200px;
+  }
+}
+
+.loginbox {
+  // background: #232524cc;
+  // border-radius: 10px;
+  padding: 20px;
+}
