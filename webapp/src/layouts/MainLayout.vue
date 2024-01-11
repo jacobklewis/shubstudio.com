@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { userState, getToken } from 'src/boot/authHelper';
+import { userState, getToken, isLoggedIn } from 'src/boot/authHelper';
 import DropdownSimpleItem from 'components/DropdownSimpleItem.vue';
 import clipboard from 'clipboardy';
 
@@ -53,7 +53,7 @@ export default defineComponent({
       return userState.username;
     },
     isLoggedIn() {
-      return userState.isLoggedIn;
+      return isLoggedIn();
     }
   },
 

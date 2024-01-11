@@ -35,13 +35,13 @@
                 shubs in their clever disguises!</p>
             </div>
           </q-img>
-          <!-- <div class="mobile-only">
+          <div class="mobile-only">
             <p class="text-h5">Strategic Prop Placement</p>
             <p>Hiders, get ready to transform into everyday objects within the game environment. From furniture to
               plants,
               your creativity is the key to successful concealment. Hunters, sharpen your observation skills to spot the
               shubs in their clever disguises!</p>
-          </div> -->
+          </div>
 
 
           <p class="text-h5">Team Collaboration</p>
