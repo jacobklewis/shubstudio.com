@@ -9,7 +9,11 @@ const routes: RouteRecordRaw[] = [
       { path: 'about', component: () => import('pages/AboutPage.vue') },
       { path: 'logout', component: () => import('pages/LogoutPage.vue') },
       { path: 'login', component: () => import('pages/LoginPage.vue') },
-      { path: 'register', component: () => import('pages/RegisterPage.vue') }
+      { path: 'register', component: () => import('pages/RegisterPage.vue') },
+      {
+        path: 'games/shub-hunt',
+        component: () => import('pages/ShubHuntPage.vue'),
+      },
     ],
   },
 

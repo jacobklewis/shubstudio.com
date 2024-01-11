@@ -11,6 +11,7 @@
           <q-tooltip>Home</q-tooltip>
         </q-btn>
         <q-space />
+        <q-btn flat to="/games/shub-hunt">Shub Hunt</q-btn>
         <q-btn flat to="/about">About</q-btn>
         <q-btn v-if="!isLoggedIn" flat to="/login">Login</q-btn>
         <q-btn-dropdown v-if="isLoggedIn" stretch flat :label="username">
