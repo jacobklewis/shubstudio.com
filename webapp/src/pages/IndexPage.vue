@@ -2,7 +2,7 @@
   <q-page>
     <div class="gt-sm block transition-right-top"></div>
     <div class="column items-center" style="padding-top: 10vh; padding-bottom: 5vh; color: white;">
-      <div style="width: 70vw;">
+      <div class="container">
         <h1>Shub Studio</h1>
         <br />
         <p class="text-h4" style="padding-top: 50px; max-width: 750px;">At Shub Studio, we are dedicated to crafting
