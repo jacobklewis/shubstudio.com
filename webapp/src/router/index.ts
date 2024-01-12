@@ -39,6 +39,25 @@ const Router = createRouter({
   history: createHistory(process.env.VUE_ROUTER_BASE),
 });
 
+function hasRedirectQueryParams(route) {
+  return Object.keys(route.query).indexOf('redirectPath') >= 0;
+}
+
+Router.beforeEach((to, from, next) => {
+  if (
+    !hasRedirectQueryParams(to) &&
+    hasRedirectQueryParams(from) &&
+    to.path != '/'
+  ) {
+    next({
+      path: to.path,
+      query: { redirectPath: from.query['redirectPath'] },
+    });
+  } else {
+    next();
+  }
+});
+
 export default route(function (/* { store, ssrContext } */) {
   return Router;
 });
@@ -87,7 +106,7 @@ api.interceptors.response.use(
   },
   (error) => {
     if (
-      error.response.status == 401 &&
+      (error.response.status == 401 || error.response.status == 403) &&
       error.response.data?.action != 'user_login'
     ) {
       navigateToLogin();
@@ -99,6 +118,11 @@ api.interceptors.response.use(
 
 const navigateToLogin = () => {
   clearUser();
-  alert('Authentication error.');
-  Router.push({ path: '/' });
+  // Determine state
+  const redirectPath = Router.currentRoute.value.path;
+
+  Router.push({
+    path: '/login',
+    query: { redirectPath: redirectPath.split('/').join(',') },
+  });
 };

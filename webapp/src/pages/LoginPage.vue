@@ -83,7 +83,13 @@ export default defineComponent({
           .then(function (res) {
             if (res.status == 200) {
               setUser(res.data);
-              router.push({ path: '/' });
+              if (Object.keys(router.currentRoute.value.query).indexOf('redirectPath') >= 0) {
+                // navigate to redirectPath
+                const redirectPath = router.currentRoute.value.query['redirectPath']?.toString().split(',').join('/');
+                router.push({ path: redirectPath || '/' });
+              } else {
+                router.push({ path: '/' });
+              }
             } else {
               alert('Error');
             }
