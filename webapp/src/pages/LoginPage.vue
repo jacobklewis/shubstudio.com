@@ -1,7 +1,7 @@
 <template>
   <q-page class="full-height row justify-center items-center" style=" color: white;">
     <div class="row loginbox">
-      <div class="col-md-6 row items-center desktop-only">
+      <div class="col-md-6 col-xs-12 row items-center">
 
         <div style="width: 100%; padding-bottom: 30px;">
           <!-- <q-img style="width: 50%;" src="/icons/logo.svg" /> -->
@@ -14,7 +14,7 @@
         </div>
 
       </div>
-      <div class="col-md-1 desktop-only"></div>
+      <div class="col-md-1 col-xs-12"></div>
       <div class="col-md-5 col-xs-12">
         <q-card>
           <q-card-section>

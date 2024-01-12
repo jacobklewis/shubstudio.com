@@ -1,10 +1,12 @@
 <template>
   <q-page class="full-height row justify-center items-center" style=" color: white;">
     <div class="row loginbox">
-      <div class="col-md-6 row items-center desktop-only">
+      <div class="col-md-6 col-xs-12 row items-center">
 
         <div style="width: 100%; padding-bottom: 30px;">
-          <h4>Join the Shub Movement Today!</h4>
+          <h4>Join the Shub Movement Today! <q-chip color="primary" text-color="white" icon="key">
+              Access code required while in beta
+            </q-chip></h4>
           <p class="text-h5">Whether you're a seasoned shub enthusiast or embarking on a new digital journey, Shub
             Studio is your passport to a world where tradition meets technology. Unlock the Shub Experience - register now
             and
@@ -12,7 +14,7 @@
         </div>
 
       </div>
-      <div class="col-md-1 desktop-only"></div>
+      <div class="col-md-1 col-xs-12"></div>
       <div class="col-md-5 col-xs-12">
         <q-card>
           <q-card-section>
@@ -51,25 +53,12 @@
     <q-dialog v-model="alert">
       <q-card>
         <q-card-section>
-          <div class="text-h6">Alert</div>
+          <div class="text-h6">Invalid Input</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          Username already taken
+          {{ alertMessage }}
         </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-    <q-dialog v-model="alert2">
-      <q-card>
-        <q-card-section>
-          <div class="text-h6">Alert</div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none"> Access Code Invalid </q-card-section>
 
         <q-card-actions align="right">
           <q-btn flat label="OK" color="primary" v-close-popup />
@@ -112,7 +101,7 @@ export default defineComponent({
     const password2 = ref(undefined);
     const code = ref('');
     const alert = ref(false);
-    const alert2 = ref(false);
+    const alertMessage = ref('')
     const alert3 = ref(false);
 
     return {
@@ -121,7 +110,7 @@ export default defineComponent({
       password2,
       code,
       alert,
-      alert2,
+      alertMessage,
       alert3,
       onSubmit() {
         const txtEncoder = new TextEncoder();
@@ -141,13 +130,10 @@ export default defineComponent({
             }
           })
           .catch(function (reason: AxiosError) {
-            if (reason.response!.status === 403) {
-              // Handle 403
-              // Access Token Invalid
-              alert2.value = true;
-            } else if (reason.response!.status === 400) {
+            if (reason.response!.status === 400) {
               // Handle 400
               // alert('Username already taken...');
+              alertMessage.value = reason.response?.data?.status || 'Unknown Error';
               alert.value = true;
             } else {
               // Handle else
