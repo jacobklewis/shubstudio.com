@@ -11,6 +11,10 @@ const routes: RouteRecordRaw[] = [
       { path: 'login', component: () => import('pages/LoginPage.vue') },
       { path: 'register', component: () => import('pages/RegisterPage.vue') },
       {
+        path: 'oauth/external-request/:token',
+        component: () => import('pages/RequestExternalTokenPage.vue'),
+      },
+      {
         path: 'games/shub-hunt',
         component: () => import('pages/ShubHuntPage.vue'),
       },

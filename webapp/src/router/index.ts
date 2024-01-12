@@ -58,7 +58,7 @@ api.interceptors.request.use(
     console.log(token);
     if (token) {
       console.log('Adding Token...');
-      request.headers.common.Authorization = `Bearer ${token}`;
+      request.headers.Authorization = `Bearer ${token}`;
     }
 
     return request;
