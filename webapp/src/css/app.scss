@@ -74,10 +74,16 @@ h3 {
   .loginbox {
     width: 96%;
   }
+  .settingsbox {
+    width: 96%;
+  }
 }
 
 @media (max-width: 1000px) and (min-width: 601px) {
   .loginbox {
+    width: 80%;
+  }
+  .settingsbox {
     width: 80%;
   }
 }
@@ -87,12 +93,22 @@ h3 {
     width: 80%;
     max-width: 1200px;
   }
+  .settingsbox {
+    width: 80%;
+    max-width: 1200px;
+  }
 }
 
 .loginbox {
   // background: #232524cc;
   // border-radius: 10px;
   padding: 20px;
+}
+.settingsbox {
+  // background: #232524cc;
+  // border-radius: 10px;
+  padding: 20px;
+  margin: 0 auto;
 }
 
 .permissions-box {

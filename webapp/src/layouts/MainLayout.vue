@@ -5,7 +5,7 @@
   </div> -->
   <q-layout view="lHh lpr lff">
     <q-header style="background-color: transparent;">
-      <q-toolbar style="background-color: var(--q-secondary);">
+      <q-toolbar style="background-color: var(--q-primarry);">
 
         <q-btn flat to="/" rounded size="lg" dense icon="img:icons/logo.svg">
           <q-tooltip>Home</q-tooltip>
@@ -61,6 +61,12 @@ export default defineComponent({
 
     return {
       userList: [
+        {
+          title: 'Profile',
+          caption: 'Edit your profile',
+          icon: 'fa-solid fa-address-card',
+          link: '/settings/profile',
+        },
         {
           title: 'Logout',
           caption: 'Logout of Shub Studio',

@@ -4,7 +4,7 @@
       <div class="col-md-6 col-xs-12 row items-center">
 
         <div style="width: 100%; padding-bottom: 30px;">
-          <h4>Join the Shub Movement Today! <q-chip color="primary" text-color="white" icon="key">
+          <h4>Join the Shub Movement Today! <q-chip color="secondary" text-color="white" icon="key">
               Access code required while in beta
             </q-chip></h4>
           <p class="text-h5">Whether you're a seasoned shub enthusiast or embarking on a new digital journey, Shub

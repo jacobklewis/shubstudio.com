@@ -11,6 +11,10 @@ const routes: RouteRecordRaw[] = [
       { path: 'login', component: () => import('pages/LoginPage.vue') },
       { path: 'register', component: () => import('pages/RegisterPage.vue') },
       {
+        path: 'settings/profile',
+        component: () => import('pages/ProfilePage.vue'),
+      },
+      {
         path: 'oauth/external-request/:token',
         component: () => import('pages/RequestExternalTokenPage.vue'),
       },
