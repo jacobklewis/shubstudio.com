@@ -32,30 +32,47 @@
               <q-item>
                 <q-item-section avatar><q-icon name="fa-solid fa-user" /></q-item-section>
                 <q-item-section>Username</q-item-section>
-                <q-item-section side>{{ username }}</q-item-section>
+                <q-item-section class="gt-xs" side style="overflow: hidden;">{{ username }}</q-item-section>
                 <q-item-section side><q-btn disable round flat size="0.5em"
                     icon="fa-solid fa-pen-to-square"></q-btn></q-item-section>
               </q-item>
+              <q-item class="xs">
+                <q-item-section></q-item-section>
+                <q-item-section side style="overflow: hidden;">{{ username }}</q-item-section>
+              </q-item>
               <q-item>
                 <q-item-section avatar><q-icon name="fa-solid fa-address-card" /></q-item-section>
-                <q-item-section style="overflow: hidden;">Display Name</q-item-section>
-                <q-item-section side>{{ displayname || '(none)' }}</q-item-section>
+                <q-item-section>Display Name</q-item-section>
+                <q-item-section class="gt-xs" side style="overflow: hidden;">{{ displayname || '(none)'
+                }}</q-item-section>
                 <q-item-section side><q-btn round flat size="0.5em" icon="fa-solid fa-pen-to-square"
                     @click="displaynameEdit = true"></q-btn></q-item-section>
+              </q-item>
+              <q-item class="xs">
+                <q-item-section></q-item-section>
+                <q-item-section top side style="overflow: hidden;">{{ displayname || '(none)' }}</q-item-section>
               </q-item>
               <q-item>
                 <q-item-section avatar><q-icon name="fa-solid fa-envelope" /></q-item-section>
                 <q-item-section>Email</q-item-section>
-                <q-item-section style="overflow: hidden;" side>{{ email || '(none)' }}</q-item-section>
+                <q-item-section class="gt-xs" style="overflow: hidden;" side>{{ email || '(none)' }}</q-item-section>
                 <q-item-section side><q-btn round flat size="0.5em" icon="fa-solid fa-pen-to-square"
                     @click="emailEdit = true"></q-btn></q-item-section>
+              </q-item>
+              <q-item class="xs">
+                <q-item-section></q-item-section>
+                <q-item-section top style="overflow: hidden;" side>{{ email || '(none)' }}</q-item-section>
               </q-item>
               <q-item>
                 <q-item-section avatar><q-icon name="fa-solid fa-key" /></q-item-section>
                 <q-item-section>Password</q-item-section>
-                <q-item-section side>******</q-item-section>
+                <q-item-section class="gt-xs" side>******</q-item-section>
                 <q-item-section side><q-btn round flat size="0.5em" icon="fa-solid fa-pen-to-square"
                     @click="editPassword"></q-btn></q-item-section>
+              </q-item>
+              <q-item class="xs">
+                <q-item-section></q-item-section>
+                <q-item-section side>******</q-item-section>
               </q-item>
             </q-list>
           </q-card-section>
