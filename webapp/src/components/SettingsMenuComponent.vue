@@ -6,8 +6,7 @@
           <q-item-section>Settings</q-item-section>
         </q-item>
         <q-item class="lt-md">
-          <q-space />
-          <q-item-section side>
+          <q-item-section>
             <p class="text-subtitle1">Settings</p>
           </q-item-section>
         </q-item>

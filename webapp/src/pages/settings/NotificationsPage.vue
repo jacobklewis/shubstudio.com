@@ -11,13 +11,14 @@
         <q-card style=" color: #232524;">
           <q-card-section>
             <q-list>
-              <q-item class="lt-md">
-                <q-btn to="/settings" flat icon="fa-solid fa-arrow-left" label="Settings"></q-btn>
+              <q-item class="lt-md" style="padding-left: 0px;">
+                <q-btn to="/settings" no-caps flat icon="fa-solid fa-arrow-left" label="Settings"></q-btn>
                 <q-space />
                 <q-item-section side>
-                  <p class="text-subtitle1">Profile</p>
+                  <p class="text-subtitle1">Notifications</p>
                 </q-item-section>
               </q-item>
+              <q-separator class="lt-md" />
               <q-item>
                 <q-item-section avatar><q-icon name="fa-solid fa-check" /></q-item-section>
                 <q-item-section>No notification settings yet...</q-item-section>
