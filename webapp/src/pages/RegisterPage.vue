@@ -22,7 +22,7 @@
               <h4 style="color: #ff931e;">Register</h4>
               <br />
               <q-input v-model="username" filled label="Username" lazy-rules :rules="[
-                (val) => (val && val.length > 0) || 'Please type your Username',
+                (val) => (val && val.length > 0 && /^[a-zA-Z0-9]+$/.test(val)) || 'Please type your Username (only letters and numbers)',
               ]" />
               <br />
               <q-input v-model="password" filled label="Password" type="password" lazy-rules :rules="[

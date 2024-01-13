@@ -4,17 +4,19 @@
     style="position: fixed; width: 100%; height: 100%; background: linear-gradient(to right, #23252455, #23252455 50%, #23252400 100%);">
   </div> -->
   <q-layout view="lHh lpr lff">
-    <q-header style="background-color: transparent;">
+    <q-header style="background-color: #ff931e;">
       <q-toolbar style="background-color: var(--q-primarry);">
 
         <q-btn flat to="/" rounded size="lg" dense icon="img:icons/logo.svg">
           <q-tooltip>Home</q-tooltip>
         </q-btn>
         <q-space />
-        <q-btn flat to="/games/shub-hunt">Shub Hunt</q-btn>
-        <q-btn flat to="/about">About</q-btn>
-        <q-btn v-if="!isLoggedIn" flat to="/login">Login</q-btn>
-        <q-btn-dropdown v-if="isLoggedIn" stretch flat :label="username">
+        <q-btn-group flat style="margin-right: 10px!important;">
+          <q-btn flat to="/games/shub-hunt">Shub Hunt</q-btn>
+          <q-btn flat to="/about">About</q-btn>
+        </q-btn-group>
+        <q-btn v-if="!isLoggedIn" push to="/login">Login</q-btn>
+        <q-btn-dropdown v-if="isLoggedIn" push :label="username">
           <q-list>
             <DropdownSimpleItem v-for=" link  in  userList " :key="link.title" v-bind="link" />
           </q-list>
@@ -66,6 +68,12 @@ export default defineComponent({
           caption: 'Edit your profile',
           icon: 'fa-solid fa-address-card',
           link: '/settings/profile',
+        },
+        {
+          title: 'Notifications',
+          caption: 'Manage your notifications',
+          icon: 'fa-solid fa-bell',
+          link: '/settings/notifications',
         },
         {
           title: 'Logout',

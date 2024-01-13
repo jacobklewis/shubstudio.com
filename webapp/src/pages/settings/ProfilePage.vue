@@ -2,33 +2,22 @@
   <q-page class="full-height" style=" color: white;">
     <div class="row settingsbox">
       <div class="col-md-4 col-xs-12 gt-sm">
-        <q-card style=" color: #232524;">
-          <q-card-section>
-            <q-list>
-              <q-item>
-                <q-item-section>Settings</q-item-section>
-              </q-item>
-              <q-item clickable v-ripple active to="/settings/profile">
-                <q-item-section avatar><q-icon name="fa-solid fa-address-card" /></q-item-section>
-                <q-item-section>Profile</q-item-section>
-                <q-tooltip>Edit your profile</q-tooltip>
-              </q-item>
-              <q-item clickable v-ripple to="/settings/notifications">
-                <q-item-section avatar><q-icon name="fa-solid fa-envelope" /></q-item-section>
-                <q-item-section>Notifications</q-item-section>
-                <q-tooltip>Manage your notifications</q-tooltip>
-              </q-item>
-            </q-list>
-          </q-card-section>
-          <q-separator inset />
-          <div class="text-center" style="padding: 10px;">v0.1.10-beta</div>
-        </q-card>
+        <settings-menu-component>
+
+        </settings-menu-component>
       </div>
-      <div class="col-md-1 col-xs-12" style="height: 10px;"></div>
+      <div class="col-md-1 col-xs-12 gt-sm" style="height: 10px;"></div>
       <div class="col-md-7 col-xs-12">
         <q-card style=" color: #232524;">
           <q-card-section>
             <q-list>
+              <q-item class="lt-md">
+                <q-btn to="/settings" flat icon="fa-solid fa-arrow-left" label="Settings"></q-btn>
+                <q-space />
+                <q-item-section side>
+                  <p class="text-subtitle1">Profile</p>
+                </q-item-section>
+              </q-item>
               <q-item>
                 <q-item-section avatar><q-icon name="fa-solid fa-user" /></q-item-section>
                 <q-item-section>Username</q-item-section>
@@ -175,11 +164,12 @@ import { time } from 'console';
 import { useRoute, useRouter } from 'vue-router';
 import { setUser } from 'src/boot/authHelper';
 import { Base64 } from 'src/components/Base64';
+import SettingsMenuComponent from 'src/components/SettingsMenuComponent.vue';
 import sha256 from 'fast-sha256';
 
 export default defineComponent({
-  name: 'LoginPage',
-  components: {},
+  name: 'ProfilePage',
+  components: { SettingsMenuComponent },
   mounted() {
     this.refreshProfile();
   },
