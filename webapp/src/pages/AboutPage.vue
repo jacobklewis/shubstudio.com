@@ -8,7 +8,10 @@
         <br />
         <div class="container">
           <h3 class="text-weight-bolder">About</h3>
-          <p class="text-h5" style="padding-top: 50px; ">Who We Are</p>
+          <p class="text-h5" style="padding-top: 50px; ">What is a "Shub"</p>
+          <p>In essence, a "Shub" is anyone and everyone who wholeheartedly embraces and contributes to the vibrant fabric
+            of the community, fostering a sense of friendship, unity, and shared belonging.</p>
+          <p class="text-h5">Who We Are</p>
           <p>Shub Studio is not just a software development company; we are a community of creative minds driven by the
             vision of enhancing the shub experience through technology. Our diverse team brings together expertise in
             software development, design, and multimedia production to deliver cutting-edge solutions that elevate the
