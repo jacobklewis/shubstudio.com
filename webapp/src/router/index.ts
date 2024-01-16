@@ -119,10 +119,11 @@ api.interceptors.response.use(
 const navigateToLogin = () => {
   clearUser();
   // Determine state
-  const redirectPath = Router.currentRoute.value.path;
+  // const redirectPath = Router.currentRoute.value.path;
 
-  Router.push({
-    path: '/login',
-    query: { redirectPath: redirectPath.split('/').join(',') },
-  });
+  // Router.push({
+  //   path: '/login',
+  //   query: { redirectPath: redirectPath.split('/').join(',') },
+  // });
+  Router.push({path: '/login'});
 };

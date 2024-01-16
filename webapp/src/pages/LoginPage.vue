@@ -21,15 +21,17 @@
             <div>
               <q-form @submit="onSubmit">
                 <q-input v-model="username" filled label="Username" lazy-rules :rules="[
-                  (val) => (val && val.length > 0) || 'Please type your Username',
+                  (val) => (val && val.length > 0 && /^[a-zA-Z0-9]+$/.test(val)) || 'Please type your Username',
                 ]" />
+                <br />
                 <q-input v-model="password" filled label="Password" type="password" lazy-rules :rules="[
                   (val) => (val && val.length > 0) || 'Please type your Password',
                 ]" />
+                <br />
                 <q-btn class="full-width" label="Login" type="submit" color="secondary" />
               </q-form>
               <br />
-              <q-btn class="full-width" label="Login Help?" onclick="alert('TODO')" flat color="secondary" />
+              <q-btn class="full-width" label="Login Help?" to="/login-help" flat color="secondary" />
 
             </div>
           </q-card-section>
@@ -41,6 +43,7 @@
         </q-card>
       </div>
     </div>
+    <alert-modal-component></alert-modal-component>
 
 
 
@@ -52,13 +55,15 @@ import { defineComponent, ref } from 'vue';
 import { api } from 'src/boot/axios';
 import { time } from 'console';
 import { useRoute, useRouter } from 'vue-router';
-import { setUser } from 'src/boot/authHelper';
+import { setUser, displayAlert } from 'src/boot/authHelper';
 import { Base64 } from 'src/components/Base64';
 import sha256 from 'fast-sha256';
+import AlertModalComponent from 'src/components/AlertModalComponent.vue';
+import { stat } from 'fs';
 
 export default defineComponent({
   name: 'LoginPage',
-  components: {},
+  components: { AlertModalComponent },
   setup() {
     let router = useRouter();
     const username = ref('');
@@ -91,13 +96,13 @@ export default defineComponent({
                 router.push({ path: '/' });
               }
             } else {
-              alert('Error');
+              displayAlert('Unknown Error');
             }
           }).catch(function (res) {
             if (res.response.status == 401) {
               // Incorrect user/password
               const statusMessage = res.response.data?.status || 'Unknown Error';
-              alert(statusMessage);
+              displayAlert(statusMessage);
             }
           });
       },
