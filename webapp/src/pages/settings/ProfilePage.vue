@@ -155,7 +155,7 @@
         </q-card-section>
 
         <q-card-section>
-          <div class="text-subtitle1">Deleting your account is permanent and cannot be undone.</div>
+          <div class="text-subtitle1">Deleting your account is permanent and cannot be undone. This will also remove all your data from our servers.</div>
         </q-card-section>
         <q-card-actions align="right">
             <q-btn flat label="DELETE ACCOUNT" color="red" @click="deleteUser" />

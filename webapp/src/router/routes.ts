@@ -44,8 +44,16 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: secureRouteCheck,
       },
       {
+        path: 'games',
+        component: () => import('pages/games/GamesPage.vue'),
+      },
+      {
         path: 'games/shub-hunt',
-        component: () => import('pages/ShubHuntPage.vue'),
+        component: () => import('pages/games/ShubHuntPage.vue'),
+      },
+      {
+        path: 'spaces',
+        component: () => import('pages/spaces/SpacesPage.vue'),
       },
     ],
   },
