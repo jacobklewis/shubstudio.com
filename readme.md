@@ -15,6 +15,14 @@ In essence, a "Shub" is anyone and everyone who wholeheartedly embraces and cont
 
 Feel free to fork this repo and make it better. Maybe even submit a PR to help us out. It's truely up to you!
 
+### How to install/run
+
+```bash
+cd webapp
+npm install
+quasar dev
+```
+
 ### License
 
 Copyright 2024 Jacob K Lewis
