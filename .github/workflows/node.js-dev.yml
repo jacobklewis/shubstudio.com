@@ -33,11 +33,11 @@ jobs:
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           # username
-          username: ${{ secrets.FTP_USERNAME_DEV }}
+          username: ${{ secrets.FTP_USERNAME }}
           # your sftp server
           server: ${{ secrets.FTP_SERVER }}
           # SSH passsword，If a password is set, the secret key pair is ignored
-          password: ${{ secrets.FTP_PASSWORD_DEV }}
+          password: ${{ secrets.FTP_PASSWORD }}
           # your sftp server port, default to 22
           port: 22
           # will put all file under this path
