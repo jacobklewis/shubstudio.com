@@ -29,6 +29,12 @@
     <q-page-container>
       <router-view />
 
+      <div class="row" style="margin-bottom: 20px;">
+        <div class="col-3 gt-xs"></div>
+        <q-btn class="col-sm-3 col-xs-12" dense flat color="white" to="/legal/tos">Terms of Service</q-btn>
+        <q-btn class="col-sm-3 col-xs-12" dense flat color="white" to="/legal/pp">Privacy Policy</q-btn>
+        <div class="col-3 gt-xs"></div>
+      </div>
       <div
         style="width: 100%; text-align: center; font-size:12px; color:#ffffff; background-color: #ff931e; padding-bottom: 120px;">
         &copy;2024
