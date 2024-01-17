@@ -5,7 +5,7 @@
         <div class="text-h6">{{ legalType == LegalType.PrivacyPolicy ? 'Privacy Policy' : 'Terms Of Service' }}</div>
       </q-card-section>
 
-      <q-card-section style="max-height: 80vh" class="scroll">
+      <q-card-section style="max-height: 60vh" class="scroll">
         <privacy-policy-component v-if="legalType == LegalType.PrivacyPolicy"></privacy-policy-component>
         <terms-of-service-component v-if="legalType == LegalType.TermsOfService"></terms-of-service-component>
       </q-card-section>
