@@ -8,7 +8,7 @@
         <br />
         <div class="container">
           <h3 class="text-weight-bolder">Until We Meet Again!</h3>
-          <p style="padding-top: 50px; ">As you logout, carry the spirit of Shub Studio with you. We look forward to
+          <p class="text-body1" style="padding-top: 50px; ">As you logout, carry the spirit of Shub Studio with you. We look forward to
             welcoming you back soon for more
             exciting shub experiences. Until then, stay connected, stay inspired, and keep the shub spirit alive!</p>
           <div style="height: 50px; width: 100%;"></div>

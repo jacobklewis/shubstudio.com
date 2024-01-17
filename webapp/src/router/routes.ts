@@ -21,6 +21,7 @@ const routes: RouteRecordRaw[] = [
       { path: 'about', component: () => import('pages/AboutPage.vue') },
       { path: 'logout', component: () => import('pages/LogoutPage.vue') },
       { path: 'login', component: () => import('pages/LoginPage.vue') },
+      { path: 'login-help', component: () => import('pages/LoginHelpPage.vue') },
       { path: 'register', component: () => import('pages/RegisterPage.vue') },
       {
         path: 'settings',
@@ -43,8 +44,16 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: secureRouteCheck,
       },
       {
+        path: 'games',
+        component: () => import('pages/games/GamesPage.vue'),
+      },
+      {
         path: 'games/shub-hunt',
-        component: () => import('pages/ShubHuntPage.vue'),
+        component: () => import('pages/games/ShubHuntPage.vue'),
+      },
+      {
+        path: 'spaces',
+        component: () => import('pages/spaces/SpacesPage.vue'),
       },
     ],
   },

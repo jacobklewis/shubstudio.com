@@ -12,7 +12,8 @@
         </q-btn>
         <q-space />
         <q-btn-group flat style="margin-right: 10px!important;">
-          <q-btn flat to="/games/shub-hunt">Shub Hunt</q-btn>
+          <q-btn flat to="/spaces">Spaces</q-btn>
+          <q-btn flat to="/games">Games</q-btn>
           <q-btn flat to="/about">About</q-btn>
         </q-btn-group>
         <q-btn v-if="!isLoggedIn" push to="/login">Login</q-btn>
@@ -29,11 +30,24 @@
       <router-view />
 
       <div
-        style="width: 100%; text-align: center; font-size:12px; color:#ffffff; background-color: #ff931e; padding-bottom: 20px;">
+        style="width: 100%; text-align: center; font-size:12px; color:#ffffff; background-color: #ff931e; padding-bottom: 120px;">
         &copy;2024
         Shub Studio. All rights reserved</div>
     </q-page-container>
+    <alert-modal-component></alert-modal-component>
 
+    <Transition name="slide-fade">
+      <q-banner class="bg-secondary text-white" v-if="userState.warnAddPassword"
+        style="position: fixed; width:100%; bottom: 0px; left: 0px; right 0px;">
+        <div class="text-center">Don't let a forgotten password slow down your Shub Studio adventure! 🔐✨ Ensure a smooth
+          and secure journey by adding your email for password recovery. It's your key to reclaiming your shub space
+          whenever needed.</div>
+        <template v-slot:action>
+          <q-btn flat color="white" label="Dismiss" @click="userState.warnAddPassword = false" />
+          <q-btn flat color="white" label="Add Email" to="/settings/profile" @click="userState.warnAddPassword = false" />
+        </template>
+      </q-banner>
+    </Transition>
   </q-layout>
 </template>
 
@@ -42,12 +56,21 @@ import { defineComponent, ref } from 'vue';
 import { userState, getToken, isLoggedIn } from 'src/boot/authHelper';
 import DropdownSimpleItem from 'components/DropdownSimpleItem.vue';
 import clipboard from 'clipboardy';
+import { api } from 'src/boot/axios';
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
     DropdownSimpleItem
+  },
+  mounted() {
+    if (isLoggedIn()) {
+      api.get('/oauth/self').then((res) => {
+        console.log(res.data);
+        userState.warnAddPassword = res.data.email === undefined || !(/\S+@\S+\.\S+/.test(res.data.email));
+      })
+    }
   },
 
   computed: {
@@ -64,16 +87,10 @@ export default defineComponent({
     return {
       userList: [
         {
-          title: 'Profile',
-          caption: 'Edit your profile',
-          icon: 'fa-solid fa-address-card',
-          link: '/settings/profile',
-        },
-        {
-          title: 'Notifications',
-          caption: 'Manage your notifications',
-          icon: 'fa-solid fa-bell',
-          link: '/settings/notifications',
+          title: 'Settings',
+          caption: 'Edit your settings',
+          icon: 'fa-solid fa-gear',
+          link: '/settings',
         },
         {
           title: 'Logout',
@@ -88,9 +105,9 @@ export default defineComponent({
           action: function () {
             clipboard.write(getToken() || '');
           }
-        },
-
-      ]
+        }
+      ],
+      userState
     }
   }
 });

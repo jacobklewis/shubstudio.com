@@ -5,7 +5,19 @@ import { UserData } from 'src/components/models';
 export const userState = reactive({
   username: '',
   isLoggedIn: false,
+  warnAddPassword: false
 });
+export const errorHandler = reactive({
+  errorTitle: '',
+  errorMessage: '',
+  errorVisible: false
+})
+
+export function displayAlert(message: string) {
+  errorHandler.errorTitle = 'Alert';
+  errorHandler.errorMessage = message;
+  errorHandler.errorVisible = true;
+}
 
 export function isLoggedIn(): boolean {
   const { cookies } = useCookies();
@@ -14,6 +26,10 @@ export function isLoggedIn(): boolean {
     | undefined as UserData | undefined;
   userState.isLoggedIn = session !== undefined && session !== null;
   userState.username = session?.username ?? '';
+  if (!userState.isLoggedIn) {
+    // reset warning
+    userState.warnAddPassword = false;
+  }
   return userState.isLoggedIn;
 }
 

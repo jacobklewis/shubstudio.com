@@ -64,12 +64,35 @@
                 <q-item-section></q-item-section>
                 <q-item-section side>******</q-item-section>
               </q-item>
+              <q-separator></q-separator>
+              <q-item>
+                <q-item-section avatar><q-icon name="fa-solid fa-database" /></q-item-section>
+                <q-item-section>Request Account Data</q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section>We respect and prioritize your privacy. If you ever wish to retrieve your account data under the General Data Protection Regulation (GDPR), we've got you covered. This process ensures transparency and empowers you with access to your personal information within Shub Studio.</q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section><q-btn outline color="orange" @click="retrieveGDPR">Request Data</q-btn></q-item-section>
+              </q-item>
+              <q-separator></q-separator>
+              <q-item>
+                <q-item-section avatar><q-icon name="fa-solid fa-remove" /></q-item-section>
+                <q-item-section>Delete Account</q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section>We believe in giving you the freedom to shape your Shub Studio experience. If you ever feel the need to part ways with your account, the option to delete is yours to embrace.</q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section><q-btn outline color="red" @click="confirmDelete=true">Delete Account</q-btn></q-item-section>
+              </q-item>
             </q-list>
           </q-card-section>
           <q-separator inset />
         </q-card>
       </div>
     </div>
+
     <q-dialog v-model="alert">
       <q-card>
         <q-card-section>
@@ -123,6 +146,35 @@
             <q-btn flat label="Cancel" color="secondary" v-close-popup />
           </q-card-actions>
         </q-form>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="confirmDelete">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6" style="color:red">Confirm Account Deletion</div>
+        </q-card-section>
+
+        <q-card-section>
+          <div class="text-subtitle1">Deleting your account is permanent and cannot be undone. This will also remove all your data from our servers.</div>
+        </q-card-section>
+        <q-card-actions align="right">
+            <q-btn flat label="DELETE ACCOUNT" color="red" @click="deleteUser" />
+            <q-btn flat label="Cancel" color="secondary" v-close-popup />
+          </q-card-actions>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="viewGDPR">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Here is all your data stored on Shub Studio</div>
+        </q-card-section>
+
+        <q-card-section>
+          TODO!
+        </q-card-section>
+        <q-card-actions align="right">
+            <q-btn flat label="Done" color="primary" v-close-popup />
+          </q-card-actions>
       </q-card>
     </q-dialog>
     <q-dialog v-model="passwordEdit">
@@ -249,6 +301,22 @@ export default defineComponent({
       this.password = undefined;
       this.password2 = undefined;
       this.oldPassword = undefined;
+    },
+    deleteUser() {
+      api.delete('/users/'+this.username).then((response: AxiosResponse) => {
+        this.router.push({ path: '/logout' });
+      }).catch((reason: AxiosError) => {
+        if (reason.response!.status === 400) {
+          this.alertMessage = reason.response?.data?.status || 'Unknown Error';
+          this.alert = true;
+        } else {
+          // Handle else
+        }
+        console.log(reason.message);
+      })
+    },
+    retrieveGDPR() {
+      this.viewGDPR = true;
     }
   },
   setup() {
@@ -266,6 +334,8 @@ export default defineComponent({
     const displaynameEdit = ref(false);
     const emailEdit = ref(false);
     const passwordEdit = ref(false);
+    const confirmDelete = ref(false);
+    const viewGDPR = ref(false);
 
     return {
       username,
@@ -281,6 +351,9 @@ export default defineComponent({
       displaynameEdit,
       emailEdit,
       passwordEdit,
+      confirmDelete,
+      viewGDPR,
+      router,
       onSubmit() {
         const txtEncoder = new TextEncoder();
         const txtDecoder = new TextDecoder('utf8');
