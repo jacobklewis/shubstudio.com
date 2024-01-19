@@ -40,6 +40,13 @@
               ]" />
               <br />
               <q-btn class="full-width" label="Create Account" type="submit" color="secondary" />
+              <br />
+              <br />
+              <small class="text-caption" style="color: #232524;">By pressing the <b>CREATE ACCOUNT</b> button, you agree
+                to the Shub
+                Studio <q-btn dense flat size="sm" @click="tosModal?.open()">Terms of Service</q-btn> and
+                <q-btn dense flat size="sm" @click="ppModal?.open()">Privacy Policy</q-btn>
+              </small>
             </q-form>
           </q-card-section>
           <q-separator inset />
@@ -78,6 +85,8 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+    <legal-modal-component ref="ppModal" :legal-type="LegalType.PrivacyPolicy"></legal-modal-component>
+    <legal-modal-component ref="tosModal" :legal-type="LegalType.TermsOfService"></legal-modal-component>
   </q-page>
 </template>
 
@@ -90,10 +99,12 @@ import { useRoute, useRouter } from 'vue-router';
 import { setUser } from 'src/boot/authHelper';
 import { Base64 } from 'src/components/Base64';
 import sha256 from 'fast-sha256';
+import LegalModalComponent from 'src/components/legal/LegalModalComponent.vue';
+import LegalType from 'src/components/legal/LegalType';
 
 export default defineComponent({
   name: 'LoginPage',
-  components: {},
+  components: { LegalModalComponent },
   setup() {
     let router = useRouter();
     const username = ref('');
@@ -103,8 +114,13 @@ export default defineComponent({
     const alert = ref(false);
     const alertMessage = ref('')
     const alert3 = ref(false);
+    const ppModal = ref<typeof LegalModalComponent>()
+    const tosModal = ref<typeof LegalModalComponent>()
 
     return {
+      ppModal,
+      tosModal,
+      LegalType,
       username,
       password,
       password2,

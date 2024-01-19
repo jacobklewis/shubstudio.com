@@ -18,10 +18,21 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
+      {
+        path: 'legal/tos',
+        component: () => import('pages/legal/TermsOfService.vue'),
+      },
+      {
+        path: 'legal/pp',
+        component: () => import('pages/legal/PrivacyPolicy.vue'),
+      },
       { path: 'about', component: () => import('pages/AboutPage.vue') },
       { path: 'logout', component: () => import('pages/LogoutPage.vue') },
       { path: 'login', component: () => import('pages/LoginPage.vue') },
-      { path: 'login-help', component: () => import('pages/LoginHelpPage.vue') },
+      {
+        path: 'login-help',
+        component: () => import('pages/LoginHelpPage.vue'),
+      },
       { path: 'register', component: () => import('pages/RegisterPage.vue') },
       {
         path: 'settings',
