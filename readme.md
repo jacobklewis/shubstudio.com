@@ -23,6 +23,11 @@ npm install
 quasar dev
 ```
 
+### Resources
+
+- https://quasar.dev/style/typography
+- https://vuejs.org/
+
 ### License
 
 Copyright 2024 Jacob K Lewis
