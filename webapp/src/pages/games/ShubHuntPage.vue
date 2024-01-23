@@ -45,7 +45,7 @@
 
           <div class="row justify-center" style="margin-top: 50px;">
             <q-btn outline icon="fa-solid fa-download" label="download"
-              href="https://shubstudio.com/files/shubhuntsetup_v0.2.0.exe" />
+              href="https://shubstudio.com/files/shubhuntsetup_v0.2.1.exe" />
           </div>
 
 
