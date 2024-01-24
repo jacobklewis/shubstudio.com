@@ -10,15 +10,7 @@
       </div>
     </div>
 
-    <div>
-      <div class="transition-right"></div>
-      <div style="background-color:#ff931e; color: white;">
-        <br />
-        <div class="column items-center">
-        </div>
-
-      </div>
-    </div>
+   <q-btn to ="/legal/tos">ayo</q-btn>
 
   </q-page>
 </template>

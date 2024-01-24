@@ -4,7 +4,7 @@
     style="position: fixed; width: 100%; height: 100%; background: linear-gradient(to right, #23252455, #23252455 50%, #23252400 100%);">
   </div> -->
   <q-layout view="lHh lpr lff">
-    <q-header style="background-color: #ff931e;">
+    <q-header style="background-color: #6d3f0d;">
       <q-toolbar style="background-color: var(--q-primarry);">
 
         <q-btn flat to="/" rounded size="lg" dense icon="img:icons/logo.svg">
