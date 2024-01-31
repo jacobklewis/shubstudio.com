@@ -70,7 +70,10 @@
                 <q-item-section>Request Account Data</q-item-section>
               </q-item>
               <q-item>
-                <q-item-section>We respect and prioritize your privacy. If you ever wish to retrieve your account data under the General Data Protection Regulation (GDPR), we've got you covered. This process ensures transparency and empowers you with access to your personal information within Shub Studio.</q-item-section>
+                <q-item-section>We respect and prioritize your privacy. If you ever wish to retrieve your account data
+                  under the General Data Protection Regulation (GDPR), we've got you covered. This process ensures
+                  transparency and empowers you with access to your personal information within Shub
+                  Studio.</q-item-section>
               </q-item>
               <q-item>
                 <q-item-section><q-btn outline color="orange" @click="retrieveGDPR">Request Data</q-btn></q-item-section>
@@ -81,10 +84,12 @@
                 <q-item-section>Delete Account</q-item-section>
               </q-item>
               <q-item>
-                <q-item-section>We believe in giving you the freedom to shape your Shub Studio experience. If you ever feel the need to part ways with your account, the option to delete is yours to embrace.</q-item-section>
+                <q-item-section>We believe in giving you the freedom to shape your Shub Studio experience. If you ever
+                  feel the need to part ways with your account, the option to delete is yours to embrace.</q-item-section>
               </q-item>
               <q-item>
-                <q-item-section><q-btn outline color="red" @click="confirmDelete=true">Delete Account</q-btn></q-item-section>
+                <q-item-section><q-btn outline color="red" @click="confirmDelete = true">Delete
+                    Account</q-btn></q-item-section>
               </q-item>
             </q-list>
           </q-card-section>
@@ -155,28 +160,31 @@
         </q-card-section>
 
         <q-card-section>
-          <div class="text-subtitle1">Deleting your account is permanent and cannot be undone. This will also remove all your data from our servers.</div>
+          <div class="text-subtitle1">Deleting your account is permanent and cannot be undone. This will also remove all
+            your data from our servers.</div>
         </q-card-section>
         <q-card-actions align="right">
-            <q-btn flat label="DELETE ACCOUNT" color="red" @click="deleteUser" />
-            <q-btn flat label="Cancel" color="secondary" v-close-popup />
-          </q-card-actions>
+          <q-btn flat label="DELETE ACCOUNT" color="red" @click="deleteUser" />
+          <q-btn flat label="Cancel" color="secondary" v-close-popup />
+        </q-card-actions>
       </q-card>
     </q-dialog>
+
     <q-dialog v-model="viewGDPR">
-      <q-card>
+      <q-card style="max-width: 90%!important;">
         <q-card-section>
           <div class="text-h6">Here is all your data stored on Shub Studio</div>
         </q-card-section>
 
-        <q-card-section>
-          TODO!
+        <q-card-section style="max-height: 60vh" class="scroll">
+          <VCodeBlock :code="gdprData" highlightjs lang="JSON" theme="xcode" />
         </q-card-section>
         <q-card-actions align="right">
-            <q-btn flat label="Done" color="primary" v-close-popup />
-          </q-card-actions>
+          <q-btn flat label="Done" color="primary" v-close-popup />
+        </q-card-actions>
       </q-card>
     </q-dialog>
+
     <q-dialog v-model="passwordEdit">
       <q-card>
         <q-card-section>
@@ -219,6 +227,7 @@ import { setUser } from 'src/boot/authHelper';
 import { Base64 } from 'src/components/Base64';
 import SettingsMenuComponent from 'src/components/SettingsMenuComponent.vue';
 import sha256 from 'fast-sha256';
+import jsonBeautify from 'json-beautify';
 
 export default defineComponent({
   name: 'ProfilePage',
@@ -303,7 +312,7 @@ export default defineComponent({
       this.oldPassword = undefined;
     },
     deleteUser() {
-      api.delete('/users/'+this.username).then((response: AxiosResponse) => {
+      api.delete('/users/' + this.username).then((response: AxiosResponse) => {
         this.router.push({ path: '/logout' });
       }).catch((reason: AxiosError) => {
         if (reason.response!.status === 400) {
@@ -317,6 +326,17 @@ export default defineComponent({
     },
     retrieveGDPR() {
       this.viewGDPR = true;
+      api.get('/users/' + this.username + '/export').then((response: AxiosResponse) => {
+        this.gdprData = jsonBeautify(response.data, null, 2, 100);
+      }).catch((reason: AxiosError) => {
+        if (reason.response!.status === 400) {
+          this.alertMessage = reason.response?.data?.status || 'Unknown Error';
+          this.alert = true;
+        } else {
+          // Handle else
+        }
+        console.log(reason.message);
+      })
     }
   },
   setup() {
@@ -336,6 +356,7 @@ export default defineComponent({
     const passwordEdit = ref(false);
     const confirmDelete = ref(false);
     const viewGDPR = ref(false);
+    const gdprData = ref('');
 
     return {
       username,
@@ -354,6 +375,7 @@ export default defineComponent({
       confirmDelete,
       viewGDPR,
       router,
+      gdprData,
       onSubmit() {
         const txtEncoder = new TextEncoder();
         const txtDecoder = new TextDecoder('utf8');

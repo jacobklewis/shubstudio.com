@@ -1,6 +1,7 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
 import VueApexCharts from 'vue3-apexcharts';
+import { VCodeBlock } from '@wdns/vue-code-block';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -30,6 +31,7 @@ export default boot(({ app }) => {
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
   app.use(VueApexCharts);
+  app.component('VCodeBlock', VCodeBlock);
 });
 
 export { api };
