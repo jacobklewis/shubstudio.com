@@ -9,17 +9,6 @@
           innovative solutions that resonate with the unique needs and aspirations of shubs everywhere.</p>
       </div>
     </div>
-
-    <div>
-      <div class="transition-right"></div>
-      <div style="background-color:#ff931e; color: white;">
-        <br />
-        <div class="column items-center">
-        </div>
-
-      </div>
-    </div>
-
   </q-page>
 </template>
 
