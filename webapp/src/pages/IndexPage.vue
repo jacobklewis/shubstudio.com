@@ -9,9 +9,6 @@
           innovative solutions that resonate with the unique needs and aspirations of shubs everywhere.</p>
       </div>
     </div>
-
-   <q-btn to ="/legal/tos">ayo</q-btn>
-
   </q-page>
 </template>
 
