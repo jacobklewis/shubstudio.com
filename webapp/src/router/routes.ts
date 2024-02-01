@@ -50,6 +50,11 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: secureRouteCheck,
       },
       {
+        path: 'settings/tokens',
+        component: () => import('pages/settings/TokensPage.vue'),
+        beforeEnter: secureRouteCheck,
+      },
+      {
         path: 'oauth/external-request/:token',
         component: () => import('pages/RequestExternalTokenPage.vue'),
         beforeEnter: secureRouteCheck,
