@@ -20,10 +20,15 @@
           <q-item-section>Notifications</q-item-section>
           <q-tooltip>Manage your notifications</q-tooltip>
         </q-item>
+        <q-item clickable v-ripple to="/settings/tokens">
+          <q-item-section avatar><q-icon name="fa-solid fa-key" /></q-item-section>
+          <q-item-section>Tokens</q-item-section>
+          <q-tooltip>Manage your Access tokens</q-tooltip>
+        </q-item>
       </q-list>
     </q-card-section>
     <q-separator inset />
-    <div class="text-center" style="padding: 10px;">v0.1.10-beta</div>
+    <div class="text-center" style="padding: 10px;">v0.1.15-beta</div>
   </q-card>
 </template>
 
