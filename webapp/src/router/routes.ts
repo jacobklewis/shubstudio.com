@@ -69,7 +69,22 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'spaces',
-        component: () => import('pages/spaces/SpacesPage.vue'),
+        redirect: { name: 'welcome' },
+        component: () => import('layouts/SpacesLayout.vue'),
+        beforeEnter: secureRouteCheck,
+        children: [
+          {
+            name: 'welcome',
+            path: 'welcome',
+            component: () => import('pages/spaces/SpacesPage.vue'),
+            beforeEnter: secureRouteCheck,
+          },
+          {
+            path: 'chat/:sessionId',
+            component: () => import('pages/spaces/SpacesChatPage.vue'),
+            beforeEnter: secureRouteCheck,
+          },
+        ],
       },
     ],
   },

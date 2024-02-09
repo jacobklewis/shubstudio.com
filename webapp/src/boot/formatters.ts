@@ -1,11 +1,26 @@
-function standardDate(dateStr: string | undefined): string {
-  if (dateStr === undefined) {
+function standardDate(date: Date | string | undefined): string {
+  if (date === undefined) {
     return '';
   }
-  return new Date(dateStr).toLocaleDateString('en-us', {
+  const dateObj = date instanceof Date ? date : new Date(date);
+  return dateObj.toLocaleDateString('en-us', {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
+  });
+}
+function detailedDate(date: Date | string | undefined): string {
+  if (date === undefined) {
+    return '';
+  }
+  const dateObj = date instanceof Date ? date : new Date(date);
+  return dateObj.toLocaleDateString('en-us', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
   });
 }
 
@@ -21,4 +36,4 @@ function dec2Cpt(dec: number): string {
   return cpt.toUpperCase();
 }
 
-export { standardDate, cpt2Dec, dec2Cpt };
+export { standardDate, detailedDate, cpt2Dec, dec2Cpt };

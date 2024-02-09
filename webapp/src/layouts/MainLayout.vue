@@ -1,8 +1,4 @@
 <template>
-  <canvas id="bgcanvas" style="width: 100%; height: 100%; position: fixed; background-color: #ff931e;"></canvas>
-  <!-- <div
-    style="position: fixed; width: 100%; height: 100%; background: linear-gradient(to right, #23252455, #23252455 50%, #23252400 100%);">
-  </div> -->
   <q-layout view="lHh lpr lff">
     <q-header style="background-color: #6d3f0d;">
       <q-toolbar style="background-color: var(--q-primarry);">
