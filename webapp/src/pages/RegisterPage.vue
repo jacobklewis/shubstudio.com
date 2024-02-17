@@ -44,8 +44,8 @@
               <br />
               <small class="text-caption" style="color: #232524;">By pressing the <b>CREATE ACCOUNT</b> button, you agree
                 to the Shub
-                Studio <q-btn dense flat size="sm" @click="tosModal?.open()">Terms of Service</q-btn> and
-                <q-btn dense flat size="sm" @click="ppModal?.open()">Privacy Policy</q-btn>
+                Studio <q-btn dense flat size="sm" @click="tosModal = true">Terms of Service</q-btn> and
+                <q-btn dense flat size="sm" @click="ppModal = true">Privacy Policy</q-btn>
               </small>
             </q-form>
           </q-card-section>
@@ -85,8 +85,8 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-    <legal-modal-component ref="ppModal" :legal-type="LegalType.PrivacyPolicy"></legal-modal-component>
-    <legal-modal-component ref="tosModal" :legal-type="LegalType.TermsOfService"></legal-modal-component>
+    <legal-modal-component v-model="ppModal" :legal-type="LegalType.PrivacyPolicy"></legal-modal-component>
+    <legal-modal-component v-model="tosModal" :legal-type="LegalType.TermsOfService"></legal-modal-component>
   </q-page>
 </template>
 
@@ -114,8 +114,8 @@ export default defineComponent({
     const alert = ref(false);
     const alertMessage = ref('')
     const alert3 = ref(false);
-    const ppModal = ref<typeof LegalModalComponent>()
-    const tosModal = ref<typeof LegalModalComponent>()
+    const ppModal = ref(false)
+    const tosModal = ref(false)
 
     return {
       ppModal,

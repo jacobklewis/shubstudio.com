@@ -2,7 +2,7 @@
   <q-page>
     <div class="row">
       <div class="col bg-secondary text-white" style="max-width: 200px;">
-        <q-list>
+        <q-list style="padding-top: 50px;">
           <q-item clickable v-ripple v-for="session in chatSessions" v-bind:key="session._id"
             :to="'/spaces/chat/' + session._id">
             <q-item-section>{{ session.name }}</q-item-section>
