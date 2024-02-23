@@ -27,7 +27,8 @@
                 </div>
                 <div class="col">
                   <!-- <q-select dark label="Mode" :options="['linear', 'draw', 'spline']" v-model="modeLEDs" /> -->
-                  <q-file dark v-model="fileUpload" label="Upload Background" @update:model-value="showBG" />
+                  <q-file dark v-model="fileUpload" label="Upload Background" @update:model-value="showBG"
+                    accept="image/jpeg,image/png" />
                 </div>
 
 
@@ -43,8 +44,9 @@
               <canvas ref="myCanvas" width="1280" height="800" style="width: 100%;"></canvas>
             </q-card-section>
             <q-card-actions align="right">
+              <q-file borderless dark v-model="mapUpload" label="Upload" @update:model-value="uploadJSON"
+                accept="application/json" />
               <q-btn flat label="Download" color="primary" @click="downloadJSON" />
-              <q-btn flat label="Upload" color="info" />
             </q-card-actions>
           </q-card>
         </div>
@@ -274,6 +276,22 @@ export default defineComponent({
       fr.onload = createImage;   // onload fires after reading is complete
       fr.readAsDataURL(file);    // begin reading
     },
+    uploadJSON() {
+      var file = this.mapUpload;
+      var fr = new FileReader();
+      const restore = () => {
+        const json = JSON.parse(fr.result?.toString() || '{}');
+        this.lineWidth = json['sampleSize'];
+        this.pos = json['guidePoints'];
+        this.paths = [];
+        for (let i = 1; i < this.pos.length; i++) {
+          this.paths.push({ a: this.pos[i - 1], b: this.pos[i], selected: false, hovered: false })
+        }
+        this.mapUpload = undefined;
+      }
+      fr.onload = restore;   // onload fires after reading is complete
+      fr.readAsText(file);    // begin reading
+    },
     calcPrevCoords() {
       if (this.paths.length < 1) {
         return;
@@ -326,6 +344,7 @@ export default defineComponent({
         samplePoints: this.prevCoords.map((x) => x.map((y) => [y[0] / 1280, y[1] / 720])),
         guidePoints: this.pos,
         refSize: [1280, 720],
+        sampleSize: this.lineWidth,
         _v: 1
       };
 
@@ -364,10 +383,11 @@ export default defineComponent({
     const modeLEDs = ref('linear');
     const lineWidth = ref(10);
     const fileUpload = ref();
+    const mapUpload = ref();
     const showSamples = ref(true);
     const pos = ref<Point[]>([])
     const paths = ref<Path[]>([])
-    return { myCanvas, numLEDs, modeLEDs, pos, paths, lineWidth, fileUpload, prevCoords, showSamples };
+    return { myCanvas, numLEDs, modeLEDs, pos, paths, lineWidth, fileUpload, prevCoords, showSamples, mapUpload };
   }
 });
 </script>
