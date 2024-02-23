@@ -18,8 +18,12 @@
                 </div>
                 <div class="col">
                   <!-- <q-select dark label="Mode" :options="['linear', 'draw', 'spline']" v-model="modeLEDs" /> -->
-                  Line Width
+                  Sample Size
                   <q-slider dark :min="0" :max="100" v-model="lineWidth" />
+                </div>
+                <div class="col">
+                  <!-- <q-select dark label="Mode" :options="['linear', 'draw', 'spline']" v-model="modeLEDs" /> -->
+                  <q-checkbox label="Show Samples" v-model="showSamples" />
                 </div>
                 <div class="col">
                   <!-- <q-select dark label="Mode" :options="['linear', 'draw', 'spline']" v-model="modeLEDs" /> -->
@@ -39,7 +43,7 @@
               <canvas ref="myCanvas" width="1280" height="800" style="width: 100%;"></canvas>
             </q-card-section>
             <q-card-actions align="right">
-              <q-btn flat label="Download" color="primary" />
+              <q-btn flat label="Download" color="primary" @click="downloadJSON" />
               <q-btn flat label="Upload" color="info" />
             </q-card-actions>
           </q-card>
@@ -54,8 +58,8 @@
 import { L } from 'app/dist/spa/assets/index.e661abbe';
 import { defineComponent, ref } from 'vue';
 
-const POINT_SIZE = 50;
-const WIDTH_STEP_SIZE = 5;
+const POINT_SIZE = 25;
+const WIDTH_STEP_SIZE = 20;
 
 interface Selectable {
   selected: boolean;
@@ -140,7 +144,7 @@ export default defineComponent({
       while (this.pos.filter((i) => i.x == nx && i.y == ny).length > 0) {
         nx += 50;
       }
-      this.pos.push({ x: nx, y: ny, size: this.pos.length == 0 ? POINT_SIZE * 2 : POINT_SIZE, selected: false, hovered: false });
+      this.pos.push({ x: nx, y: ny, size: this.pos.length == 0 ? POINT_SIZE * 1.5 : POINT_SIZE, selected: false, hovered: false });
       const posLen = this.pos.length;
       if (posLen >= 2) {
         this.paths.push({ a: this.pos[posLen - 2], b: this.pos[posLen - 1], selected: false, hovered: false })
@@ -213,10 +217,15 @@ export default defineComponent({
         ctx.lineWidth = 2;
         ctx.strokeStyle = cp.hovered ? '#ffffff99' : '#000000bb';
         ctx.fillStyle = cp.selected ? '#ffffff99' : '#000000bb';
-        ctx.beginPath();
-        ctx.arc(cp.x, cp.y, cp.size, 0, 2 * Math.PI)
-        ctx.stroke();
-        ctx.fill();
+        if (x == 0) {
+          ctx.fillRect(cp.x - cp.size, cp.y - cp.size, cp.size * 2, cp.size * 2);
+          ctx.strokeRect(cp.x - cp.size, cp.y - cp.size, cp.size * 2, cp.size * 2);
+        } else {
+          ctx.beginPath();
+          ctx.arc(cp.x, cp.y, cp.size, 0, 2 * Math.PI)
+          ctx.stroke();
+          ctx.fill();
+        }
       }
 
       // Mouse Cursor
@@ -236,11 +245,13 @@ export default defineComponent({
         ctx.strokeStyle = '#ffffff';
         const color = getColorForCoord(this.prevCoords[x]);
         //console.log(color);
-        for (let i = 1; i < this.prevCoords[x].length; i++) {
-          ctx.fillStyle = '#00000033';
-          ctx.beginPath();
-          ctx.arc(this.prevCoords[x][i][0], this.prevCoords[x][i][1], WIDTH_STEP_SIZE / 2, 0, 2 * Math.PI)
-          ctx.fill();
+        if (this.showSamples) {
+          for (let i = 1; i < this.prevCoords[x].length; i++) {
+            ctx.fillStyle = '#ffffff33';
+            ctx.beginPath();
+            ctx.arc(this.prevCoords[x][i][0], this.prevCoords[x][i][1], 4, 0, 2 * Math.PI)
+            ctx.fill();
+          }
         }
         ctx.fillStyle = color;
         ctx.beginPath();
@@ -307,6 +318,40 @@ export default defineComponent({
 
         this.prevCoords.push(diffuseCoords);
       }
+    },
+    downloadJSON() {
+      // Create a JavaScript object
+      var data = {
+        numLEDs: this.numLEDs,
+        samplePoints: this.prevCoords.map((x) => x.map((y) => [y[0] / 1280, y[1] / 720])),
+        guidePoints: this.pos,
+        refSize: [1280, 720],
+        _v: 1
+      };
+
+      // Convert the JavaScript object to a JSON string
+      var jsonData = JSON.stringify(data, null, 2); // The third parameter (2) is for indentation
+
+      // Create a Blob containing the JSON data
+      var blob = new Blob([jsonData], { type: 'application/json' });
+
+      // Create a link element
+      var a = document.createElement('a');
+
+      // Set the download attribute with the filename
+      a.download = 'data.json';
+
+      // Create a URL for the Blob and set it as the href attribute of the link
+      a.href = URL.createObjectURL(blob);
+
+      // Append the link to the document body
+      document.body.appendChild(a);
+
+      // Trigger a click on the link to start the download
+      a.click();
+
+      // Remove the link from the document
+      document.body.removeChild(a);
     }
   },
   setup() {
@@ -319,9 +364,10 @@ export default defineComponent({
     const modeLEDs = ref('linear');
     const lineWidth = ref(10);
     const fileUpload = ref();
+    const showSamples = ref(true);
     const pos = ref<Point[]>([])
     const paths = ref<Path[]>([])
-    return { myCanvas, numLEDs, modeLEDs, pos, paths, lineWidth, fileUpload, prevCoords };
+    return { myCanvas, numLEDs, modeLEDs, pos, paths, lineWidth, fileUpload, prevCoords, showSamples };
   }
 });
 </script>
