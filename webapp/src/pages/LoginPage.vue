@@ -33,8 +33,8 @@
               <br />
               <small class="text-caption" style="color: #232524;">By pressing the <b>LOGIN</b> button, you agree
                 to the Shub
-                Studio <q-btn dense flat size="sm" @click="tosModal?.open()">Terms of Service</q-btn> and
-                <q-btn dense flat size="sm" @click="ppModal?.open()">Privacy Policy</q-btn>
+                Studio <q-btn dense flat size="sm" @click="tosModal = true">Terms of Service</q-btn> and
+                <q-btn dense flat size="sm" @click="ppModal = true">Privacy Policy</q-btn>
               </small>
               <q-btn class="full-width" label="Login Help?" to="/login-help" flat color="secondary" />
 
@@ -49,8 +49,8 @@
       </div>
     </div>
     <alert-modal-component></alert-modal-component>
-    <legal-modal-component ref="ppModal" :legal-type="LegalType.PrivacyPolicy"></legal-modal-component>
-    <legal-modal-component ref="tosModal" :legal-type="LegalType.TermsOfService"></legal-modal-component>
+    <legal-modal-component v-model="ppModal" :legal-type="LegalType.PrivacyPolicy"></legal-modal-component>
+    <legal-modal-component v-model="tosModal" :legal-type="LegalType.TermsOfService"></legal-modal-component>
 
 
 
@@ -78,8 +78,8 @@ export default defineComponent({
     const username = ref('');
     const password = ref(undefined);
     const time = ref(80);
-    const ppModal = ref<typeof LegalModalComponent>()
-    const tosModal = ref<typeof LegalModalComponent>()
+    const ppModal = ref(false)
+    const tosModal = ref(false)
 
     return {
       ppModal,

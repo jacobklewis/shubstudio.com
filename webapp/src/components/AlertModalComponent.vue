@@ -16,22 +16,8 @@
   </q-dialog>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent, PropType, ref } from 'vue';
 import { errorHandler } from 'boot/authHelper'
-
-export default defineComponent({
-  name: 'AlertModalComponent',
-  // computed: {
-  //   showAlert() {
-  //     return this.alertMessage !== undefined && this.alertMessage.length>0;
-  //   },
-  //   alertMessage() {
-  //     return ''
-  //   }
-  // },
-  setup() {
-    return {errorHandler};
-  },
-});
+import { onMounted } from 'vue';
 </script>
