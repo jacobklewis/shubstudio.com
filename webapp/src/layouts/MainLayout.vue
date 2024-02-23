@@ -1,8 +1,4 @@
 <template>
-  <canvas id="bgcanvas" style="width: 100%; height: 100%; position: fixed; background-color: #ff931e;"></canvas>
-  <!-- <div
-    style="position: fixed; width: 100%; height: 100%; background: linear-gradient(to right, #23252455, #23252455 50%, #23252400 100%);">
-  </div> -->
   <q-layout view="lHh lpr lff">
     <q-header style="background-color: #6d3f0d;">
       <q-toolbar style="background-color: var(--q-primarry);">
@@ -26,21 +22,23 @@
     </q-header>
 
 
-    <q-page-container>
+    <q-page-container style="padding-top: 0px;">
       <router-view />
 
-      <div class="row" style="margin-bottom: 20px;">
-        <div class="col-3 gt-xs"></div>
-        <q-btn class="col-sm-3 col-xs-12" dense flat color="white" to="/legal/tos">Terms of Service</q-btn>
-        <q-btn class="col-sm-3 col-xs-12" dense flat color="white" to="/legal/pp">Privacy Policy</q-btn>
-        <div class="col-3 gt-xs"></div>
-      </div>
-      <div
-        style="width: 100%; text-align: center; font-size:12px; color:#ffffff; background-color: #ff931e; padding-bottom: 120px;">
-        &copy;2024
-        Shub Studio. All rights reserved</div>
+      <template v-if="!isSpaces">
+        <div class="row" style="margin-bottom: 20px;">
+          <div class="col-3 gt-xs"></div>
+          <q-btn class="col-sm-3 col-xs-12" dense flat color="white" to="/legal/tos">Terms of Service</q-btn>
+          <q-btn class="col-sm-3 col-xs-12" dense flat color="white" to="/legal/pp">Privacy Policy</q-btn>
+          <div class="col-3 gt-xs"></div>
+        </div>
+        <div
+          style="width: 100%; text-align: center; font-size:12px; color:#ffffff; background-color: #ff931e; padding-bottom: 120px;">
+          &copy;2024
+          Shub Studio. All rights reserved</div>
+      </template>
+
     </q-page-container>
-    <alert-modal-component></alert-modal-component>
 
     <Transition name="slide-fade">
       <q-banner class="bg-secondary text-white" v-if="userState.warnAddPassword"
@@ -61,12 +59,17 @@
 import { defineComponent, ref } from 'vue';
 import { userState, getToken, isLoggedIn } from 'src/boot/authHelper';
 import DropdownSimpleItem from 'components/DropdownSimpleItem.vue';
+import { useRoute, RouteLocationNormalized, NavigationGuardNext } from 'vue-router';
 import clipboard from 'clipboardy';
 import { api } from 'src/boot/axios';
 
 export default defineComponent({
   name: 'MainLayout',
+  data() {
+    return {
 
+    }
+  },
   components: {
     DropdownSimpleItem
   },
@@ -87,9 +90,14 @@ export default defineComponent({
       return isLoggedIn();
     }
   },
+  beforeRouteUpdate(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
+    this.isSpaces = to.path?.startsWith('/spaces') || false;
+    next();
+  },
 
   setup() {
-
+    const isSpaces = ref(false);
+    isSpaces.value = useRoute().path?.startsWith('/spaces') || false;
     return {
       userList: [
         {
@@ -113,7 +121,8 @@ export default defineComponent({
           }
         }
       ],
-      userState
+      userState,
+      isSpaces
     }
   }
 });

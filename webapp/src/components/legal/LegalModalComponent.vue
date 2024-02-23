@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="isOpen">
+  <q-dialog v-model="model">
     <q-card>
       <q-card-section>
         <div class="text-h6">{{ legalType == LegalType.PrivacyPolicy ? 'Privacy Policy' : 'Terms Of Service' }}</div>
@@ -17,36 +17,17 @@
   </q-dialog>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue';
+<script lang="ts" setup>
+import { PropType } from 'vue';
 import LegalType from 'components/legal/LegalType';
 import PrivacyPolicyComponent from './PrivacyPolicyComponent.vue';
 import TermsOfServiceComponent from './TermsOfServiceComponent.vue';
 
-export default defineComponent({
-  name: 'LegalModalComponent',
-  components: {
-    PrivacyPolicyComponent,
-    TermsOfServiceComponent
-  },
-  data() {
-    return {
-      isOpen: false
-    }
-  },
-  methods: {
-    open() {
-      this.isOpen = true;
-    }
-  },
-  props: {
-    legalType: {
-      type: Object as PropType<LegalType>,
-      required: true,
-    },
-  },
-  setup() {
-    return { LegalType };
-  },
-});
+const model = defineModel<boolean>();
+const { legalType } = defineProps({
+  legalType: {
+    type: Object as PropType<LegalType>,
+    required: true,
+  }
+})
 </script>

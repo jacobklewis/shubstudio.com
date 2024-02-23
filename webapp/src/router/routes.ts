@@ -60,6 +60,11 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: secureRouteCheck,
       },
       {
+        path: 'apps/led-mapper',
+        component: () => import('pages/apps/LEDMapper.vue'),
+        beforeEnter: secureRouteCheck,
+      },
+      {
         path: 'games',
         component: () => import('pages/games/GamesPage.vue'),
       },
@@ -69,7 +74,22 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'spaces',
-        component: () => import('pages/spaces/SpacesPage.vue'),
+        redirect: { name: 'welcome' },
+        component: () => import('layouts/SpacesLayout.vue'),
+        beforeEnter: secureRouteCheck,
+        children: [
+          {
+            name: 'welcome',
+            path: 'welcome',
+            component: () => import('pages/spaces/SpacesPage.vue'),
+            beforeEnter: secureRouteCheck,
+          },
+          {
+            path: 'chat/:sessionId',
+            component: () => import('pages/spaces/SpacesChatPage.vue'),
+            beforeEnter: secureRouteCheck,
+          },
+        ],
       },
     ],
   },
