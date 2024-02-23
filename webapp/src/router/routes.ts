@@ -60,6 +60,11 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: secureRouteCheck,
       },
       {
+        path: 'apps/led-mapper',
+        component: () => import('pages/apps/LEDMapper.vue'),
+        beforeEnter: secureRouteCheck,
+      },
+      {
         path: 'games',
         component: () => import('pages/games/GamesPage.vue'),
       },
