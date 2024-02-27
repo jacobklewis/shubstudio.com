@@ -282,6 +282,7 @@ export default defineComponent({
       const restore = () => {
         const json = JSON.parse(fr.result?.toString() || '{}');
         this.lineWidth = json['sampleSize'];
+        this.numLEDs = json['numLEDs'];
         this.pos = json['guidePoints'];
         this.paths = [];
         for (let i = 1; i < this.pos.length; i++) {
