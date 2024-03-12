@@ -13,7 +13,8 @@
           <q-btn flat to="/about">About</q-btn>
         </q-btn-group>
         <q-btn v-if="!isLoggedIn" push to="/login">Login</q-btn>
-        <q-btn-dropdown v-if="isLoggedIn" push :label="username">
+        <q-btn-dropdown :icon="profile_icon ? 'img:' + profile_icon : 'fa-solid fa-circle'" v-if="isLoggedIn" push
+          :label="username">
           <q-list>
             <DropdownSimpleItem v-for=" link  in  userList " :key="link.title" v-bind="link" />
           </q-list>
@@ -43,12 +44,14 @@
     <Transition name="slide-fade">
       <q-banner class="bg-secondary text-white" v-if="userState.warnAddPassword"
         style="position: fixed; width:100%; bottom: 0px; left: 0px; right 0px;">
-        <div class="text-center">Don't let a forgotten password slow down your Shub Studio adventure! 🔐✨ Ensure a smooth
+        <div class="text-center">Don't let a forgotten password slow down your Shub Studio adventure! 🔐✨ Ensure a
+          smooth
           and secure journey by adding your email for password recovery. It's your key to reclaiming your shub space
           whenever needed.</div>
         <template v-slot:action>
           <q-btn flat color="white" label="Dismiss" @click="userState.warnAddPassword = false" />
-          <q-btn flat color="white" label="Add Email" to="/settings/profile" @click="userState.warnAddPassword = false" />
+          <q-btn flat color="white" label="Add Email" to="/settings/profile"
+            @click="userState.warnAddPassword = false" />
         </template>
       </q-banner>
     </Transition>
@@ -79,6 +82,7 @@ export default defineComponent({
         console.log(res.data);
         userState.warnAddPassword = res.data.email === undefined || !(/\S+@\S+\.\S+/.test(res.data.email));
       })
+      this.updateIcon();
     }
   },
 
@@ -90,13 +94,30 @@ export default defineComponent({
       return isLoggedIn();
     }
   },
+  methods: {
+    updateIcon() {
+      if (isLoggedIn()) {
+        api.get('users/' + this.username + '/icon', { responseType: 'blob' }).then((response) => {
+          const blob = response.data;
+          let reader = new FileReader()
+          reader.readAsDataURL(blob)
+          reader.onloadend = () => {
+            var base64data = reader.result;
+            this.profile_icon = base64data;
+          }
+        })
+      }
+    }
+  },
   beforeRouteUpdate(to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) {
     this.isSpaces = to.path?.startsWith('/spaces') || false;
+    this.updateIcon();
     next();
   },
 
   setup() {
     const isSpaces = ref(false);
+    const profile_icon = ref<string | ArrayBuffer | null>('');
     isSpaces.value = useRoute().path?.startsWith('/spaces') || false;
     return {
       userList: [
@@ -122,7 +143,8 @@ export default defineComponent({
         }
       ],
       userState,
-      isSpaces
+      isSpaces,
+      profile_icon
     }
   }
 });

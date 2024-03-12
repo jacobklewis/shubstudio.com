@@ -34,7 +34,7 @@
                 <q-item-section avatar><q-icon name="fa-solid fa-address-card" /></q-item-section>
                 <q-item-section>Display Name</q-item-section>
                 <q-item-section class="gt-xs" side style="overflow: hidden;">{{ displayname || '(none)'
-                }}</q-item-section>
+                  }}</q-item-section>
                 <q-item-section side><q-btn round flat size="0.5em" icon="fa-solid fa-pen-to-square"
                     @click="displaynameEdit = true"></q-btn></q-item-section>
               </q-item>
@@ -53,6 +53,7 @@
                 <q-item-section></q-item-section>
                 <q-item-section top style="overflow: hidden;" side>{{ email || '(none)' }}</q-item-section>
               </q-item>
+
               <q-item>
                 <q-item-section avatar><q-icon name="fa-solid fa-key" /></q-item-section>
                 <q-item-section>Password</q-item-section>
@@ -76,7 +77,8 @@
                   Studio.</q-item-section>
               </q-item>
               <q-item>
-                <q-item-section><q-btn outline color="orange" @click="retrieveGDPR">Request Data</q-btn></q-item-section>
+                <q-item-section><q-btn outline color="orange" @click="retrieveGDPR">Request
+                    Data</q-btn></q-item-section>
               </q-item>
               <q-separator></q-separator>
               <q-item>
@@ -85,7 +87,8 @@
               </q-item>
               <q-item>
                 <q-item-section>We believe in giving you the freedom to shape your Shub Studio experience. If you ever
-                  feel the need to part ways with your account, the option to delete is yours to embrace.</q-item-section>
+                  feel the need to part ways with your account, the option to delete is yours to
+                  embrace.</q-item-section>
               </q-item>
               <q-item>
                 <q-item-section><q-btn outline color="red" @click="confirmDelete = true">Delete
@@ -122,8 +125,8 @@
         <q-form @submit="updateDisplayname">
           <q-card-section class="q-pt-none">
             <q-input v-model="ed_displayname" filled label="Display Name" lazy-rules :rules="[
-              (val) => (val && val.length > 0 && /^[a-zA-Z0-9\s]+$/.test(val)) || 'Please type a valid display name (no special characters)',
-            ]" />
+                  (val) => (val && val.length > 0 && /^[a-zA-Z0-9\s]+$/.test(val)) || 'Please type a valid display name (no special characters)',
+                ]" />
           </q-card-section>
 
           <q-card-actions align="right">
@@ -142,8 +145,8 @@
         <q-form @submit="updateEmail">
           <q-card-section class="q-pt-none">
             <q-input v-model="ed_email" filled label="Email" lazy-rules :rules="[
-              (val) => (val && val.length > 0 && /\S+@\S+\.\S+/.test(val)) || 'Please type a valid Email',
-            ]" />
+                  (val) => (val && val.length > 0 && /\S+@\S+\.\S+/.test(val)) || 'Please type a valid Email',
+                ]" />
           </q-card-section>
 
           <q-card-actions align="right">
@@ -193,18 +196,18 @@
         <q-form @submit="updatePassword">
           <q-card-section class="q-pt-none">
             <q-input v-model="oldPassword" filled label="Old Password" type="password" lazy-rules :rules="[
-              (val) => (val && val.length > 0) || 'Please type your Old Password',
-            ]" />
+                  (val) => (val && val.length > 0) || 'Please type your Old Password',
+                ]" />
             <br />
             <q-input v-model="password" filled label="Password" type="password" lazy-rules :rules="[
-              (val) => (val && val.length > 0) || 'Please type your Password',
-            ]" />
+                  (val) => (val && val.length > 0) || 'Please type your Password',
+                ]" />
             <br />
             <q-input v-model="password2" filled label="Re-enter Password" type="password" lazy-rules :rules="[
-              (val) =>
-                (val && val.length > 0 && val == password) ||
-                'Please correctly re-enter your Password',
-            ]" />
+                  (val) =>
+                    (val && val.length > 0 && val == password) ||
+                    'Please correctly re-enter your Password',
+                ]" />
           </q-card-section>
 
           <q-card-actions align="right">
@@ -242,6 +245,7 @@ export default defineComponent({
         this.displayname = response.data.displayname;
         this.email = response.data.email;
       })
+
     },
     updateDisplayname() {
       api.patch('/users', {
@@ -410,4 +414,3 @@ export default defineComponent({
   },
 });
 </script>
-
