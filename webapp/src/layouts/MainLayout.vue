@@ -8,7 +8,7 @@
         </q-btn>
         <q-space />
         <q-btn-group flat style="margin-right: 10px!important;">
-          <q-btn flat to="/spaces">Spaces</q-btn>
+          <!-- <q-btn flat to="/spaces">Spaces</q-btn> -->
           <q-btn flat to="/games">Games</q-btn>
           <q-btn flat to="/about">About</q-btn>
         </q-btn-group>
