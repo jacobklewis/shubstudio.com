@@ -65,6 +65,11 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: secureRouteCheck,
       },
       {
+        path: 'apps/drink-calc',
+        component: () => import('pages/apps/DrinkCalc.vue'),
+        beforeEnter: secureRouteCheck,
+      },
+      {
         path: 'games',
         component: () => import('pages/games/GamesPage.vue'),
       },
