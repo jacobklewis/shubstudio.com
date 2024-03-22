@@ -17,7 +17,7 @@
             </q-card-section>
             <q-card-section>
               <div style="position: relative;">
-                <canvas ref="beerCan" width="250" height="300"
+                <canvas ref="beerCan" width="500" height="600"
                   style="width: 250px; height:300px; margin: 0 auto; display:block"></canvas>
               </div>
             </q-card-section>
@@ -92,6 +92,9 @@ export default defineComponent({
     let waveInt = 0;
     let waveLength = 50;
     const waveStep = 40;
+    const w = 500;
+    const h = 600;
+    const wO = 80;
     setInterval(() => {
       fillAmount = fillAmount + fillAni * (this.completionValue - fillAmount);
       waveInt += 0.05;
@@ -99,35 +102,37 @@ export default defineComponent({
       if (!ctx) return;
       // Render
       ctx.fillStyle = '#232524';
-      ctx.fillRect(0, 0, 250, 300);
-      ctx.strokeStyle = '#eeeeee';
-      ctx.beginPath();
-      ctx.moveTo(245, 5);
-      ctx.lineTo(210, 295);
-      ctx.lineTo(40, 295);
-      ctx.lineTo(5, 5);
-      ctx.stroke();
+      ctx.fillRect(0, 0, w, h);
       // fill
-      const height = 290 * Math.min(fillAmount, 1);
-      const topLine = 295 - height;
+      const height = (h - 10) * Math.min(fillAmount, 1);
+      const topLine = h - 10 - height;
       ctx.fillStyle = '#ecb176';
       ctx.beginPath();
       //ctx.fillRect(5, topLine, 240, height);
       // 290h : 240w - 170w
-      const xOffset = 35 * (1 - fillAmount);
+      const xOffset = (w - 10 - (w - wO * 2)) / 2 * (1 - fillAmount);
       const xScale = (fillAmount) + (1 - fillAmount) * 0.68;
       ctx.moveTo(5 + xOffset, topLine);
-      for (let x = 5 + xOffset; x < 250; x += waveStep) {
+      for (let x = 5 + xOffset; x < w; x += waveStep) {
         const s = 1 * fillAmount;
-        const l = 0.02;
-        const yVal = (s * Math.pow(x, 0.5) * Math.sin(l * x + waveInt) - s * Math.pow(250 - x, 0.5) * Math.sin(l * (250 - x) + waveInt)) * Math.sin(-l * x + waveInt);
+        const l = 0.01;
+        const yVal = (s * Math.pow(x, 0.5) * Math.sin(l * x + waveInt) - s * Math.pow(w - x, 0.5) * Math.sin(l * (w - x) + waveInt)) * Math.sin(-l * x + waveInt);
         ctx.lineTo(x * xScale + xOffset, topLine + yVal);
       }
-      ctx.lineTo(245 - xOffset, topLine);
-      ctx.lineTo(210, 295);
-      ctx.lineTo(40, 295);
+      ctx.lineTo(w - 5 - xOffset, topLine);
+      ctx.lineTo(w - wO, h - 5);
+      ctx.lineTo(wO, h - 5);
       ctx.lineTo(5 + xOffset, topLine);
       ctx.fill();
+      // Outline
+      ctx.strokeStyle = '#eeeeee';
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(w - 5, 5);
+      ctx.lineTo(w - wO, h - 5);
+      ctx.lineTo(wO, h - 5);
+      ctx.lineTo(5, 5);
+      ctx.stroke();
     }, 50)
   },
   setup() {
