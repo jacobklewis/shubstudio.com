@@ -15,6 +15,12 @@
               <div class="text-subtitle2">Ounces of Pure Alcohol Allowed each week: {{ summary?.allowance || "(None)" }}
               </div>
             </q-card-section>
+            <q-card-section>
+              <div style="position: relative;">
+                <canvas ref="beerCan" width="250" height="300"
+                  style="width: 250px; height:300px; margin: 0 auto; display:block"></canvas>
+              </div>
+            </q-card-section>
 
             <q-card-section>
               <q-linear-progress stripe rounded size="20px" :value="completionValue" color="green" class="q-mt-sm" />
@@ -79,9 +85,55 @@ export default defineComponent({
   computed: {
     completionValue() { return ((this.summary?.allowance || 0) - (this.summary?.remaining || 0)) / (this.summary?.allowance || 1) }
   },
+  mounted() {
+    let fillAmount = 0;
+    let fillAni = 0.1;
+
+    let waveInt = 0;
+    let waveLength = 50;
+    const waveStep = 40;
+    setInterval(() => {
+      fillAmount = fillAmount + fillAni * (this.completionValue - fillAmount);
+      waveInt += 0.05;
+      const ctx = this.beerCan?.getContext('2d');
+      if (!ctx) return;
+      // Render
+      ctx.fillStyle = '#232524';
+      ctx.fillRect(0, 0, 250, 300);
+      ctx.strokeStyle = '#eeeeee';
+      ctx.beginPath();
+      ctx.moveTo(245, 5);
+      ctx.lineTo(210, 295);
+      ctx.lineTo(40, 295);
+      ctx.lineTo(5, 5);
+      ctx.stroke();
+      // fill
+      const height = 290 * Math.min(fillAmount, 1);
+      const topLine = 295 - height;
+      ctx.fillStyle = '#ecb176';
+      ctx.beginPath();
+      //ctx.fillRect(5, topLine, 240, height);
+      // 290h : 240w - 170w
+      const xOffset = 35 * (1 - fillAmount);
+      const xScale = (fillAmount) + (1 - fillAmount) * 0.68;
+      ctx.moveTo(5 + xOffset, topLine);
+      for (let x = 5 + xOffset; x < 250; x += waveStep) {
+        const s = 1 * fillAmount;
+        const l = 0.02;
+        const yVal = (s * Math.pow(x, 0.5) * Math.sin(l * x + waveInt) - s * Math.pow(250 - x, 0.5) * Math.sin(l * (250 - x) + waveInt)) * Math.sin(-l * x + waveInt);
+        ctx.lineTo(x * xScale + xOffset, topLine + yVal);
+      }
+      ctx.lineTo(245 - xOffset, topLine);
+      ctx.lineTo(210, 295);
+      ctx.lineTo(40, 295);
+      ctx.lineTo(5 + xOffset, topLine);
+      ctx.fill();
+    }, 50)
+  },
   setup() {
     const createNew = ref(false);
-    const summary = ref<Summary>()
+    const summary = ref<Summary>();
+    const beerCan = ref<HTMLCanvasElement>();
     const router = useRouter()
     const updateDash = () => {
       api.get('/apps/drinkcalc').then((res) => {
@@ -102,7 +154,7 @@ export default defineComponent({
       }
     })
     updateDash();
-    return { createNew, summary, deleteItem, detailedDate };
+    return { createNew, summary, deleteItem, detailedDate, beerCan };
   }
 });
 </script>
