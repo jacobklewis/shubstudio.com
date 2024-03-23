@@ -5,13 +5,14 @@ import { UserData } from 'src/components/models';
 export const userState = reactive({
   username: '',
   isLoggedIn: false,
-  warnAddPassword: false
+  warnAddPassword: false,
+  isSystemAdmin: false,
 });
 export const errorHandler = reactive({
   errorTitle: '',
   errorMessage: '',
-  errorVisible: false
-})
+  errorVisible: false,
+});
 
 export function displayAlert(message: string) {
   errorHandler.errorTitle = 'Alert';
@@ -26,6 +27,10 @@ export function isLoggedIn(): boolean {
     | undefined as UserData | undefined;
   userState.isLoggedIn = session !== undefined && session !== null;
   userState.username = session?.username ?? '';
+  // const tokenData = JSON.parse(
+  //   Buffer.from(session?.token || '', 'base64').toString()
+  // );
+  userState.isSystemAdmin = userState.username == 'jacob';
   if (!userState.isLoggedIn) {
     // reset warning
     userState.warnAddPassword = false;

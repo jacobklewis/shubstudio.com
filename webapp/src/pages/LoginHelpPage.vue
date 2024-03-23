@@ -16,9 +16,9 @@
             <div>
               <q-form @submit="onSubmit" v-if="resultMessage.length == 0">
                 <q-input v-model="username" filled label="Username/Email" lazy-rules :rules="[
-                  (val) => (val && val.length > 0 && (/^[a-zA-Z0-9]+$/.test(val) || /\S+@\S+\.\S+/.test(val))) || 'Please type your Username or Email',
-                ]" />
-                <br/>
+                (val) => (val && val.length > 0 && (/^[a-zA-Z0-9]+$/.test(val) || /\S+@\S+\.\S+/.test(val))) || 'Please type your Username or Email',
+              ]" />
+                <br />
                 <q-btn class="full-width" label="Request Support" type="submit" color="secondary" />
               </q-form>
               <div v-if="resultMessage.length > 0">
@@ -44,7 +44,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { api } from 'src/boot/axios';
-import {displayAlert} from 'src/boot/authHelper';
+import { displayAlert } from 'src/boot/authHelper';
 import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -63,30 +63,29 @@ export default defineComponent({
       time,
       resultMessage,
       onSubmit() {
-        resultMessage.value = 'Request Submitted';
-        // api
-        //   .post('/oauth/forgot-password', {
-        //     username: username.value?.toLowerCase()
-        //   })
-        //   .then(function (res) {
-        //     if (res.status == 200) {
 
-        //     } else {
+        api
+          .post('/oauth/forgot-password', {
+            username: username.value?.toLowerCase()
+          })
+          .then(function (res) {
+            if (res.status == 200) {
+              resultMessage.value = 'Request Submitted';
+            } else {
 
-        //     }
-        //   }).catch(function (res) {
-        //     if (res.response.status == 401) {
-        //       // Incorrect user/password
-        //       const statusMessage = res.response.data?.status || 'Unknown Error';
-        //       displayAlert(statusMessage);
-        //     } else {
-        //       const statusMessage = res.response.data?.status || 'Unknown Error';
-        //       displayAlert(statusMessage);
-        //     }
-        //   });
+            }
+          }).catch(function (res) {
+            if (res.response.status == 401) {
+              // Incorrect user/password
+              const statusMessage = res.response.data?.status || 'Unknown Error';
+              displayAlert(statusMessage);
+            } else {
+              const statusMessage = res.response.data?.status || 'Unknown Error';
+              displayAlert(statusMessage);
+            }
+          });
       },
     };
   },
 });
 </script>
-
