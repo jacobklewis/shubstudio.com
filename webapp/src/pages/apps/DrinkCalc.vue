@@ -16,7 +16,8 @@
               </div>
             </q-card-section>
             <q-card-section>
-              <div style="position: relative;">
+              <q-btn fab icon="add" color="primary" @click="createNew = true" />
+              <div style="position: relative;" @click="createNew = true">
                 <canvas ref="beerCan" width="500" height="600"
                   style="width: 250px; height:300px; margin: 0 auto; display:block"></canvas>
               </div>
@@ -48,9 +49,6 @@
 
 
         </div>
-        <q-page-sticky position="top-right" :offset="[18, 18]">
-          <q-btn fab icon="add" color="accent" @click="createNew = true" />
-        </q-page-sticky>
         <br />
       </div>
       <new-drink-modal v-model="createNew" />
@@ -65,6 +63,7 @@ import NewDrinkModal from 'src/components/NewDrinkModal.vue';
 import { detailedDate } from 'src/boot/formatters';
 import { defineComponent, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import { by } from 'app/dist/spa/assets/index.e661abbe';
 
 interface Drink {
   _id: string,
@@ -79,6 +78,14 @@ interface Summary {
   remaining: number,
 }
 
+interface Bubble {
+  x: number,
+  y: number,
+  size: number,
+  timeAlive: number,
+  popAni: number
+}
+
 export default defineComponent({
   name: 'DrinkCalc',
   components: { NewDrinkModal },
@@ -88,6 +95,12 @@ export default defineComponent({
   mounted() {
     let fillAmount = 0;
     let fillAni = 0.1;
+    let bubbles: Bubble[] = [];
+    const NUM_BUBBLES = 200;
+    const BUBBLE_FLOAT = 2;
+    const BUBBLE_DISPLACE = 5;
+    const BUBBLE_SIZE = 10;
+    const BUBBLE_HEAD = 50;
 
     let waveInt = 0;
     let waveLength = 50;
@@ -124,6 +137,58 @@ export default defineComponent({
       ctx.lineTo(wO, h - 5);
       ctx.lineTo(5 + xOffset, topLine);
       ctx.fill();
+      // Bubbles
+      if (bubbles.length < NUM_BUBBLES * fillAmount) {
+        bubbles.push({ x: w / 2 + Math.random() * w / 2 - w / 4, y: h - 30, size: 1, popAni: 0, timeAlive: 0 })
+      }
+
+
+      bubbles.forEach((b) => {
+        b.x += Math.random() * BUBBLE_DISPLACE * 2 - BUBBLE_DISPLACE;
+        if (b.size < BUBBLE_SIZE) {
+          b.size += 0.1;
+        }
+        if (b.y < topLine) {
+          b.y -= BUBBLE_FLOAT / 4;
+        } else {
+
+          b.y -= BUBBLE_FLOAT + Math.random();
+        }
+        if (b.y < topLine - BUBBLE_HEAD) {
+          b.popAni += 0.2;
+        }
+        bubbles.forEach((b2) => {
+          if (b.x != b2.x && b.y != b2.y && Math.abs(b.x - b2.x) < b.size + b2.size && Math.abs(b.y - b2.y) < b.size + b2.size) {
+            if (b.x < b2.x) {
+              b.x -= BUBBLE_DISPLACE;
+            } else {
+              b.x += BUBBLE_DISPLACE;
+            }
+            if (b.y < b2.y) {
+              b.y -= BUBBLE_DISPLACE;
+            } else {
+              b.y += BUBBLE_DISPLACE;
+            }
+          }
+        })
+        const bxScale = ((1 - b.y / h) + b.y / h * 0.68) * w / 2;
+        while (b.x - b.size * 2 < w / 2 - bxScale) {
+          b.x += 1;
+        }
+        while (b.x + b.size * 2 > w / 2 + bxScale) {
+          b.x -= 1;
+        }
+        ctx.strokeStyle = '#eeeeee';
+        ctx.fillStyle = '#eeeeee77';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.size + b.popAni * b.size, 0, Math.PI * 2);
+        ctx.stroke();
+        if (b.y < topLine && b.y > topLine - BUBBLE_HEAD) {
+          ctx.fill();
+        }
+      })
+      bubbles = bubbles.filter((b) => b.popAni < 1);
       // Outline
       ctx.strokeStyle = '#eeeeee';
       ctx.lineWidth = 5;
@@ -133,7 +198,7 @@ export default defineComponent({
       ctx.lineTo(wO, h - 5);
       ctx.lineTo(5, 5);
       ctx.stroke();
-    }, 50)
+    }, 40)
   },
   setup() {
     const createNew = ref(false);
