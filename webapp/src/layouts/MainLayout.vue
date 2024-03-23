@@ -9,8 +9,12 @@
         <q-space />
         <q-btn-group flat style="margin-right: 10px!important;">
           <!-- <q-btn flat to="/spaces">Spaces</q-btn> -->
-          <q-btn flat to="/games">Games</q-btn>
           <q-btn flat to="/about">About</q-btn>
+          <q-btn-dropdown flat label="Apps">
+            <q-list>
+              <DropdownSimpleItem v-for=" link  in  appList " :key="link.title" v-bind="link" />
+            </q-list>
+          </q-btn-dropdown>
         </q-btn-group>
         <q-btn v-if="!isLoggedIn" push to="/login">Login</q-btn>
         <q-btn-dropdown :icon="profile_icon ? 'img:' + profile_icon : 'fa-solid fa-circle'" v-if="isLoggedIn" push
@@ -43,7 +47,7 @@
 
     <Transition name="slide-fade">
       <q-banner class="bg-secondary text-white" v-if="userState.warnAddPassword"
-        style="position: fixed; width:100%; bottom: 0px; left: 0px; right 0px;">
+        style="position: fixed; width:100%; bottom: 0px; left: 0px; right: 0px;">
         <div class="text-center">Don't let a forgotten password slow down your Shub Studio adventure! 🔐✨ Ensure a
           smooth
           and secure journey by adding your email for password recovery. It's your key to reclaiming your shub space
@@ -92,6 +96,31 @@ export default defineComponent({
     },
     isLoggedIn() {
       return isLoggedIn();
+    },
+    appList() {
+      let mList = [
+        {
+          title: 'Games',
+          caption: 'View Games',
+          icon: 'fa-solid fa-gamepad',
+          link: '/games',
+        },
+      ];
+      if (this.isLoggedIn) {
+        mList.push({
+          title: 'Drink Calculator',
+          caption: 'Take Control of your Booze',
+          icon: 'fa-solid fa-whiskey-glass',
+          link: '/apps/drink-calc',
+        })
+        mList.push({
+          title: 'LED Mapper',
+          caption: 'Map those LEDs (Chipper Mask)',
+          icon: 'fa-solid fa-lightbulb',
+          link: '/apps/led-mapper',
+        })
+      }
+      return mList;
     }
   },
   methods: {
@@ -119,6 +148,7 @@ export default defineComponent({
     const isSpaces = ref(false);
     const profile_icon = ref<string | ArrayBuffer | null>('');
     isSpaces.value = useRoute().path?.startsWith('/spaces') || false;
+
     return {
       userList: [
         {
