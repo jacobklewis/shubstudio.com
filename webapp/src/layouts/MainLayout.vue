@@ -94,6 +94,9 @@ export default defineComponent({
     username() {
       return userState.username;
     },
+    isSystemAdmin() {
+      return userState.isSystemAdmin;
+    },
     isLoggedIn() {
       return isLoggedIn();
     },
@@ -169,6 +172,16 @@ export default defineComponent({
           icon: 'key',
           action: function () {
             clipboard.write(getToken() || '');
+          }
+        },
+        {
+          title: 'Reset Passwords',
+          caption: 'Admin Reset Passwords',
+          icon: 'fa-solid fa-recycle',
+          action: function () {
+            api.get('/oauth/admin-reset-password').then((res) => {
+              //
+            })
           }
         }
       ],
