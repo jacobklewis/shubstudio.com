@@ -33,6 +33,10 @@ const routes: RouteRecordRaw[] = [
         path: 'login-help',
         component: () => import('pages/LoginHelpPage.vue'),
       },
+      {
+        path: 'reset-password/:code',
+        component: () => import('pages/ResetPasswordPage.vue'),
+      },
       { path: 'register', component: () => import('pages/RegisterPage.vue') },
       {
         path: 'settings',

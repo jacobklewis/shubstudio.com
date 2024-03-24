@@ -124,6 +124,43 @@ export default defineComponent({
         })
       }
       return mList;
+    },
+    userList() {
+      let mList = [
+        {
+          title: 'Settings',
+          caption: 'Edit your settings',
+          icon: 'fa-solid fa-gear',
+          link: '/settings',
+        },
+        {
+          title: 'Logout',
+          caption: 'Logout of Shub Studio',
+          icon: 'logout',
+          link: '/logout',
+        },
+        {
+          title: 'Copy Token',
+          caption: 'Copy Token to clipboard (debug)',
+          icon: 'key',
+          action: function () {
+            clipboard.write(getToken() || '');
+          }
+        }
+      ];
+      if (this.isSystemAdmin) {
+        mList.push({
+          title: 'Reset Passwords',
+          caption: 'Admin Reset Passwords',
+          icon: 'fa-solid fa-recycle',
+          action: function () {
+            api.get('/oauth/admin-reset-password').then((res) => {
+              //
+            })
+          }
+        })
+      }
+      return mList;
     }
   },
   methods: {
@@ -153,38 +190,6 @@ export default defineComponent({
     isSpaces.value = useRoute().path?.startsWith('/spaces') || false;
 
     return {
-      userList: [
-        {
-          title: 'Settings',
-          caption: 'Edit your settings',
-          icon: 'fa-solid fa-gear',
-          link: '/settings',
-        },
-        {
-          title: 'Logout',
-          caption: 'Logout of Shub Studio',
-          icon: 'logout',
-          link: '/logout',
-        },
-        {
-          title: 'Copy Token',
-          caption: 'Copy Token to clipboard (debug)',
-          icon: 'key',
-          action: function () {
-            clipboard.write(getToken() || '');
-          }
-        },
-        {
-          title: 'Reset Passwords',
-          caption: 'Admin Reset Passwords',
-          icon: 'fa-solid fa-recycle',
-          action: function () {
-            api.get('/oauth/admin-reset-password').then((res) => {
-              //
-            })
-          }
-        }
-      ],
       userState,
       isSpaces,
       profile_icon

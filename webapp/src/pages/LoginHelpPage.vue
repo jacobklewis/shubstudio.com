@@ -70,9 +70,14 @@ export default defineComponent({
           })
           .then(function (res) {
             if (res.status == 200) {
-              resultMessage.value = 'Request Submitted';
-            } else {
+              if (res.data.status == 'emailed') {
+                resultMessage.value = 'Reset URL emailed to you. Please continue there!';
+              } else {
+                resultMessage.value = 'Request Submitted. Please check with admin';
+              }
 
+            } else {
+              resultMessage.value = 'An Error Occurred..';
             }
           }).catch(function (res) {
             if (res.response.status == 401) {
