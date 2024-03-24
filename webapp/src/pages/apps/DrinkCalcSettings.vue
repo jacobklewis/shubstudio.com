@@ -10,7 +10,9 @@
           <h4>Drink Calculator Settings</h4>
           <q-card class="my-card bg-secondary text-white">
             <q-card-section>
-              <q-btn class="float-right" flat icon="fa-solid fa-rocket" to="/apps/drink-calc" />
+              <q-btn flat icon="fa-solid fa-arrow-left" to="/apps/drink-calc" />
+            </q-card-section>
+            <q-card-section>
               <p>
                 The recommended maximum alcohol consumption per week would be:
               </p>
