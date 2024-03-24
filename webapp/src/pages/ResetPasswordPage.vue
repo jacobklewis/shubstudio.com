@@ -36,7 +36,7 @@
           </q-card-section>
           <q-separator inset />
 
-          <q-btn class="full-width" label="login" flat to="login" color="secondary" />
+          <q-btn class="full-width" label="login" flat to="/login" color="secondary" />
         </q-card>
 
 
