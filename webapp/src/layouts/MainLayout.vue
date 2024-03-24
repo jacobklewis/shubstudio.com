@@ -7,7 +7,7 @@
           <q-tooltip>Home</q-tooltip>
         </q-btn>
         <q-space />
-        <q-btn-group flat style="margin-right: 10px!important;">
+        <q-btn-group flat>
           <!-- <q-btn flat to="/spaces">Spaces</q-btn> -->
           <q-btn flat to="/about">About</q-btn>
           <q-btn-dropdown flat label="Apps">
@@ -16,13 +16,13 @@
             </q-list>
           </q-btn-dropdown>
         </q-btn-group>
-        <q-btn v-if="!isLoggedIn" push to="/login">Login</q-btn>
-        <q-btn-dropdown :icon="profile_icon ? 'img:' + profile_icon : 'fa-solid fa-circle'" v-if="isLoggedIn" push
+        <q-btn-dropdown :icon="profile_icon ? 'img:' + profile_icon : 'fa-solid fa-circle'" v-if="isLoggedIn" flat
           :label="username">
           <q-list>
             <DropdownSimpleItem v-for=" link  in  userList " :key="link.title" v-bind="link" />
           </q-list>
         </q-btn-dropdown>
+        <q-btn v-if="!isLoggedIn" push to="/login">Login</q-btn>
       </q-toolbar>
     </q-header>
 
