@@ -1,6 +1,7 @@
 import { useCookies } from 'vue3-cookies';
 import { reactive, Ref } from 'vue';
 import { UserData } from 'src/components/models';
+import { Base64 } from 'src/components/Base64';
 
 export const userState = reactive({
   username: '',
@@ -27,10 +28,12 @@ export function isLoggedIn(): boolean {
     | undefined as UserData | undefined;
   userState.isLoggedIn = session !== undefined && session !== null;
   userState.username = session?.username ?? '';
-  // const tokenData = JSON.parse(
-  //   Buffer.from(session?.token || '', 'base64').toString()
-  // );
-  userState.isSystemAdmin = userState.username == 'jacob';
+  try {
+    const tokenData = JSON.parse(Base64.decode(session?.token || ''));
+    userState.isSystemAdmin = tokenData.scopes.indexOf('SYSTEM_ADMIN') >= 0;
+  } catch (err) {
+    // ignore
+  }
   if (!userState.isLoggedIn) {
     // reset warning
     userState.warnAddPassword = false;

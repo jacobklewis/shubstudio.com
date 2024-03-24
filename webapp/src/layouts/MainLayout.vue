@@ -149,16 +149,17 @@ export default defineComponent({
         }
       ];
       if (this.isSystemAdmin) {
-        mList.push({
-          title: 'Reset Passwords',
-          caption: 'Admin Reset Passwords',
-          icon: 'fa-solid fa-recycle',
-          action: function () {
-            api.get('/oauth/admin-reset-password').then((res) => {
-              //
-            })
-          }
-        })
+        // Deprecated
+        // mList.push({
+        //   title: 'Reset Passwords',
+        //   caption: 'Admin Reset Passwords',
+        //   icon: 'fa-solid fa-recycle',
+        //   action: function () {
+        //     api.get('/oauth/admin-reset-password').then((res) => {
+        //       //
+        //     })
+        //   }
+        // })
       }
       return mList;
     }
