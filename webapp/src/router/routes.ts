@@ -33,6 +33,10 @@ const routes: RouteRecordRaw[] = [
         path: 'login-help',
         component: () => import('pages/LoginHelpPage.vue'),
       },
+      {
+        path: 'reset-password/:code',
+        component: () => import('pages/ResetPasswordPage.vue'),
+      },
       { path: 'register', component: () => import('pages/RegisterPage.vue') },
       {
         path: 'settings',
@@ -62,6 +66,16 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'apps/led-mapper',
         component: () => import('pages/apps/LEDMapper.vue'),
+        beforeEnter: secureRouteCheck,
+      },
+      {
+        path: 'apps/drink-calc',
+        component: () => import('pages/apps/DrinkCalc.vue'),
+        beforeEnter: secureRouteCheck,
+      },
+      {
+        path: 'apps/drink-calc/settings',
+        component: () => import('pages/apps/DrinkCalcSettings.vue'),
         beforeEnter: secureRouteCheck,
       },
       {

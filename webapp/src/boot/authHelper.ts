@@ -1,17 +1,19 @@
 import { useCookies } from 'vue3-cookies';
 import { reactive, Ref } from 'vue';
 import { UserData } from 'src/components/models';
+import { Base64 } from 'src/components/Base64';
 
 export const userState = reactive({
   username: '',
   isLoggedIn: false,
-  warnAddPassword: false
+  warnAddPassword: false,
+  isSystemAdmin: false,
 });
 export const errorHandler = reactive({
   errorTitle: '',
   errorMessage: '',
-  errorVisible: false
-})
+  errorVisible: false,
+});
 
 export function displayAlert(message: string) {
   errorHandler.errorTitle = 'Alert';
@@ -26,6 +28,12 @@ export function isLoggedIn(): boolean {
     | undefined as UserData | undefined;
   userState.isLoggedIn = session !== undefined && session !== null;
   userState.username = session?.username ?? '';
+  try {
+    const tokenData = JSON.parse(Base64.decode(session?.token || ''));
+    userState.isSystemAdmin = tokenData.scopes.indexOf('SYSTEM_ADMIN') >= 0;
+  } catch (err) {
+    // ignore
+  }
   if (!userState.isLoggedIn) {
     // reset warning
     userState.warnAddPassword = false;
