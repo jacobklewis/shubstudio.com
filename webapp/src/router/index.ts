@@ -70,6 +70,8 @@ export default route(function (/* { store, ssrContext } */) {
 
 export { globalSettings };
 
+let isRefreshing = false;
+
 // Intercept Request
 api.interceptors.request.use(
   async (request) => {
@@ -82,12 +84,16 @@ api.interceptors.request.use(
     }
     setTimeout(() => (globalSettings.loadingPer = 0.95), 50);
     // Inject Token
+    while (isRefreshing) {
+      await new Promise((r) => setTimeout(r, 100));
+    }
     let token = getToken();
 
     console.log(token);
     if (token) {
       const tokenData = JSON.parse(Base64.decode(token));
       if (tokenData.expiration - 10 < Date.now()) {
+        isRefreshing = true;
         const refresh_token = getRefreshToken();
         const newToken = await api.post('/oauth/refresh', {
           token: token,
@@ -96,6 +102,7 @@ api.interceptors.request.use(
         console.log('updated new token...');
         setUser(newToken.data);
         token = getToken();
+        isRefreshing = false;
       }
       console.log('Adding Token...');
       request.headers.Authorization = `Bearer ${token}`;
