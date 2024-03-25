@@ -9,7 +9,13 @@ import {
 import { reactive } from 'vue';
 import routes from './routes';
 import { api } from 'src/boot/axios';
-import { getToken, clearUser } from 'src/boot/authHelper';
+import {
+  getToken,
+  clearUser,
+  getRefreshToken,
+  setUser,
+} from 'src/boot/authHelper';
+import { Base64 } from 'src/components/Base64';
 
 const globalSettings = reactive({
   loadingPer: 0,
@@ -66,16 +72,27 @@ export { globalSettings };
 
 // Intercept Request
 api.interceptors.request.use(
-  (request) => {
+  async (request) => {
     // Show loading (reset loading first)
     if (globalSettings.loadingPer == 1) {
       globalSettings.loadingPer = 0;
     }
     setTimeout(() => (globalSettings.loadingPer = 0.95), 50);
     // Inject Token
-    const token = getToken();
+    let token = getToken();
+
     console.log(token);
     if (token) {
+      const tokenData = JSON.parse(Base64.decode(token));
+      if (tokenData.expiration < Date.now()) {
+        const refresh_token = getRefreshToken();
+        const newToken = await api.post('/oauth/refresh', {
+          token: token,
+          refresh_token: refresh_token,
+        });
+        setUser(newToken.data);
+        token = getToken();
+      }
       console.log('Adding Token...');
       request.headers.Authorization = `Bearer ${token}`;
     }
@@ -125,5 +142,5 @@ const navigateToLogin = () => {
   //   path: '/login',
   //   query: { redirectPath: redirectPath.split('/').join(',') },
   // });
-  Router.push({path: '/login'});
+  Router.push({ path: '/login' });
 };

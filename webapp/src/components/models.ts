@@ -11,5 +11,6 @@ export interface IndexSummaryUI {
 export interface UserData {
   username: string;
   token: string;
+  refresh: string;
   expiration: string;
 }
