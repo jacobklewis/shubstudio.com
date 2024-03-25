@@ -31,6 +31,10 @@ export function isLoggedIn(): boolean {
   try {
     const tokenData = JSON.parse(Base64.decode(session?.token || ''));
     userState.isSystemAdmin = tokenData.scopes.indexOf('SYSTEM_ADMIN') >= 0;
+    if (tokenData.ref_exp && tokenData.ref_exp < Date.now()) {
+      // cannot refresh token. Therefore, user is not logged in
+      clearUser();
+    }
   } catch (err) {
     // ignore
   }
@@ -48,7 +52,24 @@ export function getToken(): string | undefined {
     | undefined as UserData | undefined;
   console.log(session);
   console.log(`session: ${session}`);
+  try {
+    const tokenData = JSON.parse(Base64.decode(session?.token || ''));
+    if (tokenData.ref_exp && tokenData.ref_exp < Date.now()) {
+      // cannot refresh token. Therefore, user is not logged in
+      return undefined;
+    }
+  } catch (err) {
+    // ignore
+  }
   return session?.token;
+}
+
+export function getRefreshToken(): string | undefined {
+  const { cookies } = useCookies();
+  const session: UserData | undefined = cookies.get('SHUBSTUDIO_SESSION') as
+    | unknown
+    | undefined as UserData | undefined;
+  return session?.refresh;
 }
 
 export function setUser(userData: UserData) {
