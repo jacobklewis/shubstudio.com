@@ -73,6 +73,9 @@ export { globalSettings };
 // Intercept Request
 api.interceptors.request.use(
   async (request) => {
+    if (request.url?.endsWith('oauth/refresh')) {
+      return request;
+    }
     // Show loading (reset loading first)
     if (globalSettings.loadingPer == 1) {
       globalSettings.loadingPer = 0;
@@ -84,12 +87,13 @@ api.interceptors.request.use(
     console.log(token);
     if (token) {
       const tokenData = JSON.parse(Base64.decode(token));
-      if (tokenData.expiration < Date.now()) {
+      if (tokenData.expiration - 10 < Date.now()) {
         const refresh_token = getRefreshToken();
         const newToken = await api.post('/oauth/refresh', {
           token: token,
           refresh_token: refresh_token,
         });
+        console.log('updated new token...');
         setUser(newToken.data);
         token = getToken();
       }
