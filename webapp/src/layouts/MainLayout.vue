@@ -149,17 +149,14 @@ export default defineComponent({
         }
       ];
       if (this.isSystemAdmin) {
-        // Deprecated
-        // mList.push({
-        //   title: 'Reset Passwords',
-        //   caption: 'Admin Reset Passwords',
-        //   icon: 'fa-solid fa-recycle',
-        //   action: function () {
-        //     api.get('/oauth/admin-reset-password').then((res) => {
-        //       //
-        //     })
-        //   }
-        // })
+        mList.push({
+          title: 'Open CMS Token',
+          caption: 'Open CMS Token',
+          icon: 'key',
+          action: function () {
+            clipboard.write(userState.appKeys.opencms || '');
+          }
+        })
       }
       return mList;
     }

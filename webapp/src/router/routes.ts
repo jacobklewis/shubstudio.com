@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
-import { getToken } from 'src/boot/authHelper';
+import { getToken, userState } from 'src/boot/authHelper';
+import { ad } from 'app/dist/spa/assets/index.e661abbe';
 
 const secureRouteCheck = (to, from, next) => {
   if (getToken() == undefined) {
@@ -9,6 +10,19 @@ const secureRouteCheck = (to, from, next) => {
     });
   } else {
     next();
+  }
+};
+
+const systemAdminRouteCheck = (to, from, next) => {
+  if (getToken() == undefined) {
+    next({
+      path: '/login',
+      query: { redirectPath: to.path.split('/').join(',') },
+    });
+  } else if (userState.isSystemAdmin) {
+    next();
+  } else {
+    next({ path: '/' });
   }
 };
 
@@ -57,6 +71,11 @@ const routes: RouteRecordRaw[] = [
         path: 'settings/tokens',
         component: () => import('pages/settings/TokensPage.vue'),
         beforeEnter: secureRouteCheck,
+      },
+      {
+        path: 'settings/legal-editor',
+        component: () => import('pages/settings/LegalDocsEditorPage.vue'),
+        beforeEnter: systemAdminRouteCheck,
       },
       {
         path: 'oauth/external-request/:token',
