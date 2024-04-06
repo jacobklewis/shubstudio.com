@@ -19,6 +19,9 @@ declare module '@vue/runtime-core' {
 const api = axios.create({
   baseURL: 'https://hide-n-seek-a522bcdb833d.herokuapp.com/',
 });
+const opencmsApi = axios.create({
+  baseURL: 'https://open-legal-0cdd447b7e35.herokuapp.com/',
+});
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -34,4 +37,4 @@ export default boot(({ app }) => {
   app.component('VCodeBlock', VCodeBlock);
 });
 
-export { api };
+export { api, opencmsApi };

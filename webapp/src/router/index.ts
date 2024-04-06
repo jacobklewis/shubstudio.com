@@ -8,12 +8,13 @@ import {
 
 import { reactive } from 'vue';
 import routes from './routes';
-import { api } from 'src/boot/axios';
+import { api, opencmsApi } from 'src/boot/axios';
 import {
   getToken,
   clearUser,
   getRefreshToken,
   setUser,
+  userState,
 } from 'src/boot/authHelper';
 import { Base64 } from 'src/components/Base64';
 
@@ -143,6 +144,26 @@ api.interceptors.response.use(
     }
   }
 );
+
+opencmsApi.interceptors.request.use(async (request) => {
+  // Show loading (reset loading first)
+  if (globalSettings.loadingPer == 1) {
+    globalSettings.loadingPer = 0;
+  }
+  setTimeout(() => (globalSettings.loadingPer = 0.95), 50);
+  // Inject Token
+  let token = userState.appKeys.opencms;
+  let attemptCount = 0;
+  while (!token && token.length < 10 && attemptCount < 10) {
+    await new Promise((r) => setTimeout(r, 100));
+    token = userState.appKeys.opencms;
+    attemptCount++;
+  }
+  if (token) {
+    request.headers['x-api-key'] = `${token}`;
+  }
+  return request;
+});
 
 const navigateToLogin = () => {
   clearUser();
