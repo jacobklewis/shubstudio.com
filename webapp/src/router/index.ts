@@ -154,7 +154,7 @@ opencmsApi.interceptors.request.use(async (request) => {
   // Inject Token
   let token = userState.appKeys.opencms;
   let attemptCount = 0;
-  while (!token && attemptCount < 10) {
+  while (!token && token.length < 10 && attemptCount < 10) {
     await new Promise((r) => setTimeout(r, 100));
     token = userState.appKeys.opencms;
     attemptCount++;

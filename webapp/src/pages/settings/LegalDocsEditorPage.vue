@@ -222,59 +222,63 @@ export default defineComponent({
         content: this.qeditor,
       }).then((response) => {
         console.log(response.data);
+        this.refreshDocuments();
       });
     },
-  },
-  mounted() {
-    opencmsApi.get(`/projects/${projectId}/preview`).then((response) => {
-      this.project = response.data;
-      const docIds = response.data.documentIds;
-      const tree: any[] = [];
+    refreshDocuments() {
+      opencmsApi.get(`/projects/${projectId}/preview`).then((response) => {
+        this.project = response.data;
+        const docIds = response.data.documentIds;
+        const tree: any[] = [];
 
-      docIds.forEach((docId) => {
-        const regionTree: any[] = [];
-        const regions = Object.keys(this.project?.documentPreview[docId]);
-        regions.forEach((region) => {
-          const langTree: any[] = [];
-          const langs = Object.keys(this.project?.documentPreview[docId][region]);
-          langs.forEach((lang) => {
+        docIds.forEach((docId) => {
+          const regionTree: any[] = [];
+          const regions = Object.keys(this.project?.documentPreview[docId]);
+          regions.forEach((region) => {
+            const langTree: any[] = [];
+            const langs = Object.keys(this.project?.documentPreview[docId][region]);
+            langs.forEach((lang) => {
+              langTree.push({
+                selectable: true,
+                label: lang,
+                value: `${docId}/${region}/${lang}`,
+              });
+            });
             langTree.push({
               selectable: true,
-              label: lang,
-              value: `${docId}/${region}/${lang}`,
+              label: 'New Language',
+              value: `add/${docId}/${region}`,
+              header: 'add'
+            });
+            regionTree.push({
+              selectable: false,
+              label: region,
+              children: langTree,
+              value: `${docId}/${region}`,
+              header: 'generic',
             });
           });
-          langTree.push({
+          regionTree.push({
             selectable: true,
-            label: 'New Language',
-            value: `add/${docId}/${region}`,
+            label: 'New Region',
+            value: `add/${docId}`,
             header: 'add'
           });
-          regionTree.push({
+          tree.push({
             selectable: false,
-            label: region,
-            children: langTree,
-            value: `${docId}/${region}`,
+            label: docId,
+            children: regionTree,
+            value: docId,
             header: 'generic',
           });
         });
-        regionTree.push({
-          selectable: true,
-          label: 'New Region',
-          value: `add/${docId}`,
-          header: 'add'
-        });
-        tree.push({
-          selectable: false,
-          label: docId,
-          children: regionTree,
-          value: docId,
-          header: 'generic',
-        });
-      });
 
-      this.docTree = tree;
-    });
+        this.docTree = tree;
+      });
+    }
+  },
+  mounted() {
+    this.refreshDocuments();
     opencmsApi.get('/locales').then((response) => {
       this.localeHolder = response.data;
     });

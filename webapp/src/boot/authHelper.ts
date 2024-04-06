@@ -5,12 +5,14 @@ import { Base64 } from 'src/components/Base64';
 import { api } from 'src/boot/axios';
 import { get } from 'http';
 
+const READ_ONLY_TOKEN = 'Y2MYt0MGEyLTgw4M2UMDItDDDQ2N1MzE1FDc3ZGS0jk5NTA1';
+
 export const userState = reactive({
   username: '',
   isLoggedIn: false,
   warnAddPassword: false,
   isSystemAdmin: false,
-  appKeys: { opencms: undefined },
+  appKeys: { opencms: '' },
 });
 export const errorHandler = reactive({
   errorTitle: '',
@@ -29,7 +31,8 @@ function checkSystemAdmin(tokenData: any) {
   userState.isSystemAdmin = tokenData.scopes.indexOf('SYSTEM_ADMIN') >= 0;
   if (
     userState.isSystemAdmin &&
-    !userState.appKeys.opencms &&
+    (userState.appKeys.opencms.length == 0 ||
+      userState.appKeys.opencms == READ_ONLY_TOKEN) &&
     !gettingAppToken
   ) {
     gettingAppToken = true;
@@ -37,6 +40,9 @@ function checkSystemAdmin(tokenData: any) {
       userState.appKeys.opencms = response.data.token;
       gettingAppToken = false;
     });
+  } else if (!userState.isSystemAdmin) {
+    // Read-Only token for OpenCMS
+    userState.appKeys.opencms = READ_ONLY_TOKEN;
   }
 }
 
