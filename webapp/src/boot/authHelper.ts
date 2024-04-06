@@ -12,7 +12,7 @@ export const userState = reactive({
   isLoggedIn: false,
   warnAddPassword: false,
   isSystemAdmin: false,
-  appKeys: { opencms: '' },
+  appKeys: { opencms: READ_ONLY_TOKEN },
 });
 export const errorHandler = reactive({
   errorTitle: '',
@@ -31,8 +31,7 @@ function checkSystemAdmin(tokenData: any) {
   userState.isSystemAdmin = tokenData.scopes.indexOf('SYSTEM_ADMIN') >= 0;
   if (
     userState.isSystemAdmin &&
-    (userState.appKeys.opencms.length == 0 ||
-      userState.appKeys.opencms == READ_ONLY_TOKEN) &&
+    userState.appKeys.opencms == READ_ONLY_TOKEN &&
     !gettingAppToken
   ) {
     gettingAppToken = true;
@@ -40,9 +39,6 @@ function checkSystemAdmin(tokenData: any) {
       userState.appKeys.opencms = response.data.token;
       gettingAppToken = false;
     });
-  } else if (!userState.isSystemAdmin) {
-    // Read-Only token for OpenCMS
-    userState.appKeys.opencms = READ_ONLY_TOKEN;
   }
 }
 
