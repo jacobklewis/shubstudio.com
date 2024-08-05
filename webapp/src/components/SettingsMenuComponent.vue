@@ -25,6 +25,11 @@
           <q-item-section>Tokens</q-item-section>
           <q-tooltip>Manage your Access tokens</q-tooltip>
         </q-item>
+        <q-item v-if="userState.isSystemAdmin" clickable v-ripple to="/settings/legal-editor">
+          <q-item-section avatar><q-icon name="fa-solid fa-file-alt" /></q-item-section>
+          <q-item-section>Legal</q-item-section>
+          <q-tooltip>Legal documents</q-tooltip>
+        </q-item>
       </q-list>
     </q-card-section>
     <q-separator inset />
@@ -34,12 +39,13 @@
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from 'vue';
+import { userState } from 'src/boot/authHelper';
 
 export default defineComponent({
   name: 'SettingsMenuComponent',
   setup() {
 
-    return {};
+    return { userState };
   },
 });
 </script>

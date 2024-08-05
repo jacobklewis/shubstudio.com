@@ -2,7 +2,7 @@
   <q-page>
 
     <div>
-      <div style="background-color:#ff931e; color: white;" class="column items-center">
+      <div style="background-color:#22b573; color: white;" class="column items-center">
         <br />
         <br />
         <br />

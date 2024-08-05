@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <div style="background-color:#ff931e; color: white;" class="row justify-center items-center">
+    <div style="background-color:#22b573; color: white;" class="row justify-center items-center">
       <div class="container" style="color: #232524">
         <q-card style="margin-top: 2vh;">
           <q-card-section>

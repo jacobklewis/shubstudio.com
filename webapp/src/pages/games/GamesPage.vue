@@ -2,7 +2,7 @@
   <q-page>
 
     <div>
-      <div style="background-color:#ff931e; color: white;" class="column items-center">
+      <div style="background-color:#22b573; color: white;" class="column items-center">
         <br />
         <br />
         <br />
@@ -11,7 +11,7 @@
             <q-parallax :height="400" src="/images/shubhunt0.png" />
             <q-card-section>
               <h3 class="text-weight-bolder">Shub Hunt</h3>
-          <p class="text-h5">The Ultimate Hide-and-Seek Adventure!</p>
+              <p class="text-h5">The Ultimate Hide-and-Seek Adventure!</p>
             </q-card-section>
             <q-card-actions align="right">
               <q-btn flat label="View More" color="primary" to="/games/shub-hunt" />

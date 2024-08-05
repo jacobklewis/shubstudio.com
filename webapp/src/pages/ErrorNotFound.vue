@@ -1,5 +1,5 @@
 <template>
-  <div class="fullscreen text-white text-center q-pa-md flex flex-center" style="background-color: #ff931e;">
+  <div class="fullscreen text-white text-center q-pa-md flex flex-center" style="background-color: #22b573;">
     <div>
 
       <div style="font-size: 30vh">

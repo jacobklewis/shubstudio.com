@@ -2,12 +2,17 @@ import { useCookies } from 'vue3-cookies';
 import { reactive, Ref } from 'vue';
 import { UserData } from 'src/components/models';
 import { Base64 } from 'src/components/Base64';
+import { api } from 'src/boot/axios';
+import { get } from 'http';
+
+const READ_ONLY_TOKEN = 'Y2MYt0MGEyLTgw4M2UMDItDDDQ2N1MzE1FDc3ZGS0jk5NTA1';
 
 export const userState = reactive({
   username: '',
   isLoggedIn: false,
   warnAddPassword: false,
   isSystemAdmin: false,
+  appKeys: { opencms: READ_ONLY_TOKEN },
 });
 export const errorHandler = reactive({
   errorTitle: '',
@@ -20,6 +25,22 @@ export function displayAlert(message: string) {
   errorHandler.errorMessage = message;
   errorHandler.errorVisible = true;
 }
+let gettingAppToken = false;
+
+function checkSystemAdmin(tokenData: any) {
+  userState.isSystemAdmin = tokenData.scopes.indexOf('SYSTEM_ADMIN') >= 0;
+  if (
+    userState.isSystemAdmin &&
+    userState.appKeys.opencms == READ_ONLY_TOKEN &&
+    !gettingAppToken
+  ) {
+    gettingAppToken = true;
+    api.get('/oauth/external/app-token/opencms').then((response) => {
+      userState.appKeys.opencms = response.data.token;
+      gettingAppToken = false;
+    });
+  }
+}
 
 export function isLoggedIn(): boolean {
   const { cookies } = useCookies();
@@ -30,11 +51,11 @@ export function isLoggedIn(): boolean {
   userState.username = session?.username ?? '';
   try {
     const tokenData = JSON.parse(Base64.decode(session?.token || ''));
-    userState.isSystemAdmin = tokenData.scopes.indexOf('SYSTEM_ADMIN') >= 0;
     if (tokenData.ref_exp && tokenData.ref_exp < Date.now()) {
       // cannot refresh token. Therefore, user is not logged in
       clearUser();
     }
+    checkSystemAdmin(tokenData);
   } catch (err) {
     // ignore
   }
@@ -58,6 +79,7 @@ export function getToken(): string | undefined {
       // cannot refresh token. Therefore, user is not logged in
       return undefined;
     }
+    checkSystemAdmin(tokenData);
   } catch (err) {
     // ignore
   }
