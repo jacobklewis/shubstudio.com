@@ -5,7 +5,8 @@
 
         <div style="width: 100%; padding-bottom: 30px;">
           <!-- <q-img style="width: 50%;" src="/icons/logo.svg" /> -->
-          <p class="text-h5"><span style="font-size:3rem">&ldquo;</span>At Shub Studio, we believe in creating a seamless
+          <p class="text-h5"><span style="font-size:3rem">&ldquo;</span>At Shub Studio, we believe in creating a
+            seamless
             and secure digital hub for shubs
             around
             the
@@ -21,12 +22,12 @@
             <div>
               <q-form @submit="onSubmit">
                 <q-input v-model="username" filled label="Username" lazy-rules :rules="[
-                  (val) => (val && val.length > 0 && /^[a-zA-Z0-9]+$/.test(val)) || 'Please type your Username',
-                ]" />
+                (val) => (val && val.length > 0 && /^[a-zA-Z0-9]+$/.test(val)) || 'Please type your Username',
+              ]" />
                 <br />
                 <q-input v-model="password" filled label="Password" type="password" lazy-rules :rules="[
-                  (val) => (val && val.length > 0) || 'Please type your Password',
-                ]" />
+                (val) => (val && val.length > 0) || 'Please type your Password',
+              ]" />
                 <br />
                 <q-btn class="full-width" label="Login" type="submit" color="secondary" />
               </q-form>
@@ -124,4 +125,3 @@ export default defineComponent({
   },
 });
 </script>
-

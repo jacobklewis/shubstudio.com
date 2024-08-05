@@ -10,7 +10,7 @@
       </div>
 
       <q-btn class="q-mt-xl" color="white" text-color="black" unelevated to="/" label="Back to the Studio" no-caps
-        icon="img:icons/logo.svg" />
+        icon="img:icons/logo.svg?v=1" />
     </div>
   </div>
 </template>
