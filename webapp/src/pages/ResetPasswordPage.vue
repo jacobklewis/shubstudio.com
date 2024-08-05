@@ -15,7 +15,7 @@
         <q-card>
           <q-card-section>
             <q-form @submit="onSubmit" v-if="resultMessage.length == 0">
-              <h4 style="color: #ff931e;">Reset Password</h4>
+              <h4 style="color: #22b573;">Reset Password</h4>
               <br />
               <q-input v-model="password" filled label="Password" type="password" lazy-rules :rules="[
               (val) => (val && val.length > 0) || 'Please type your Password',

@@ -8,7 +8,7 @@
       <q-card-section style="max-height: 80vh" class="scroll">
         <div class="text-h6">Volume (oz)</div>
         <div class="text-center"><q-knob v-model="volume" size="25vh" :thickness="0.5" :step="0.5" :min="1" :max="16"
-            color="orange" show-value center-color="orange-1" class="q-ma-md" /></div>
+            color="green-6" show-value center-color="green-1" class="q-ma-md" /></div>
 
         <div class="text-h6">ABV</div>
         <q-btn-toggle v-model="abv" toggle-color="primary" spread :options="[
