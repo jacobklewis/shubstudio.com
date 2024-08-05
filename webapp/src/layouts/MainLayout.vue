@@ -3,7 +3,7 @@
     <q-header style="background-color: #222222;">
       <q-toolbar style="background-color: #222222;">
 
-        <q-btn flat to="/" rounded size="lg" dense icon="img:icons/logo.svg">
+        <q-btn flat to="/" rounded size="lg" dense icon="img:icons/logo.svg?v=1">
           <q-tooltip>Home</q-tooltip>
         </q-btn>
         <q-space />
