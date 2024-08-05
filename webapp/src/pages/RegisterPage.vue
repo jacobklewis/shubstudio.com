@@ -8,7 +8,8 @@
               Access code required while in beta
             </q-chip></h4>
           <p class="text-h5">Whether you're a seasoned shub enthusiast or embarking on a new digital journey, Shub
-            Studio is your passport to a world where tradition meets technology. Unlock the Shub Experience - register now
+            Studio is your passport to a world where tradition meets technology. Unlock the Shub Experience - register
+            now
             and
             immerse yourself in the rich tapestry of shub culture!</p>
         </div>
@@ -19,30 +20,31 @@
         <q-card>
           <q-card-section>
             <q-form @submit="onSubmit">
-              <h4 style="color: #ff931e;">Register</h4>
+              <h4 style="color: #22b573;">Register</h4>
               <br />
               <q-input v-model="username" filled label="Username" lazy-rules :rules="[
-                (val) => (val && val.length > 0 && /^[a-zA-Z0-9]+$/.test(val)) || 'Please type your Username (only letters and numbers)',
-              ]" />
+              (val) => (val && val.length > 0 && /^[a-zA-Z0-9]+$/.test(val)) || 'Please type your Username (only letters and numbers)',
+            ]" />
               <br />
               <q-input v-model="password" filled label="Password" type="password" lazy-rules :rules="[
-                (val) => (val && val.length > 0) || 'Please type your Password',
-              ]" />
+              (val) => (val && val.length > 0) || 'Please type your Password',
+            ]" />
               <br />
               <q-input v-model="password2" filled label="Re-enter Password" type="password" lazy-rules :rules="[
-                (val) =>
-                  (val && val.length > 0 && val == password) ||
-                  'Please correctly re-enter your Password',
-              ]" />
+              (val) =>
+                (val && val.length > 0 && val == password) ||
+                'Please correctly re-enter your Password',
+            ]" />
               <br />
               <q-input v-model="code" filled label="Enter Access Code" type="password" lazy-rules :rules="[
-                (val) => (val && val.length > 0) || 'Please enter your Access Code',
-              ]" />
+              (val) => (val && val.length > 0) || 'Please enter your Access Code',
+            ]" />
               <br />
               <q-btn class="full-width" label="Create Account" type="submit" color="secondary" />
               <br />
               <br />
-              <small class="text-caption" style="color: #232524;">By pressing the <b>CREATE ACCOUNT</b> button, you agree
+              <small class="text-caption" style="color: #232524;">By pressing the <b>CREATE ACCOUNT</b> button, you
+                agree
                 to the Shub
                 Studio <q-btn dense flat size="sm" @click="tosModal = true">Terms of Service</q-btn> and
                 <q-btn dense flat size="sm" @click="ppModal = true">Privacy Policy</q-btn>
@@ -163,4 +165,3 @@ export default defineComponent({
   },
 });
 </script>
-

@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh lpr lff">
-    <q-header style="background-color: #6d3f0d;">
-      <q-toolbar style="background-color: var(--q-primarry);">
+    <q-header style="background-color: #222222;">
+      <q-toolbar style="background-color: #222222;">
 
         <q-btn flat to="/" rounded size="lg" dense icon="img:icons/logo.svg">
           <q-tooltip>Home</q-tooltip>
@@ -38,7 +38,7 @@
           <div class="col-3 gt-xs"></div>
         </div>
         <div
-          style="width: 100%; text-align: center; font-size:12px; color:#ffffff; background-color: #ff931e; padding-bottom: 120px;">
+          style="width: 100%; text-align: center; font-size:12px; color:#ffffff; background-color: #22b573; padding-bottom: 120px;">
           &copy;2024
           Shub Studio. All rights reserved</div>
       </template>
