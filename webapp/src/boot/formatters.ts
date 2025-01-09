@@ -24,6 +24,10 @@ function detailedDate(date: Date | string | undefined): string {
   });
 }
 
+function percent(num: number): string {
+  return (num * 100).toFixed(0) + '%';
+}
+
 function cpt2Dec(cptCode: string | undefined): number {
   return parseInt(cptCode || '0', 36);
 }
@@ -36,4 +40,4 @@ function dec2Cpt(dec: number): string {
   return cpt.toUpperCase();
 }
 
-export { standardDate, detailedDate, cpt2Dec, dec2Cpt };
+export { standardDate, detailedDate, cpt2Dec, dec2Cpt, percent };

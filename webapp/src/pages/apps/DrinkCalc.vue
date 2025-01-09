@@ -38,6 +38,9 @@
                     <q-item-label caption>{{ detailedDate(drink.Created_date) }}</q-item-label>
                   </q-item-section>
                   <q-item-section side>
+                    <q-circular-progress :value="drink.dateRatio * 100" size="30px" color="gray" reverse />
+                  </q-item-section>
+                  <q-item-section side>
                     <q-btn flat icon="remove" color="red" @click="() => deleteItem(drink._id)"></q-btn>
                   </q-item-section>
 
@@ -60,7 +63,7 @@
 <script lang="ts">
 import { api } from 'src/boot/axios';
 import NewDrinkModal from 'src/components/NewDrinkModal.vue';
-import { detailedDate } from 'src/boot/formatters';
+import { detailedDate, percent } from 'src/boot/formatters';
 import { defineComponent, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { by } from 'app/dist/spa/assets/index.e661abbe';
@@ -69,6 +72,7 @@ interface Drink {
   _id: string,
   sizeOz: number,
   abv: number,
+  dateRatio: number,
   Created_date: Date
 }
 
@@ -224,7 +228,7 @@ export default defineComponent({
       }
     })
     updateDash();
-    return { createNew, summary, deleteItem, detailedDate, beerCan };
+    return { createNew, summary, deleteItem, detailedDate, beerCan, percent };
   }
 });
 </script>
